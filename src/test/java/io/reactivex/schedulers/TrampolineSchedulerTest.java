@@ -13,7 +13,6 @@
 
 package io.reactivex.schedulers;
 
-import io.reactivex.Flowable;
 import io.reactivex.Scheduler;
 import io.reactivex.Scheduler.Worker;
 import io.reactivex.TestHelper;

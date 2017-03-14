@@ -19,7 +19,6 @@ import java.util.*;
 
 import org.junit.Test;
 
-import io.reactivex.Flowable;
 import io.reactivex.functions.*;
 
 public class FlowableWindowTests {

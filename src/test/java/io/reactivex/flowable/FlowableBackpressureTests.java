@@ -23,7 +23,6 @@ import org.junit.*;
 import org.junit.rules.TestName;
 import org.reactivestreams.*;
 
-import io.reactivex.Flowable;
 import io.reactivex.exceptions.MissingBackpressureException;
 import io.reactivex.functions.*;
 import io.reactivex.internal.subscriptions.SubscriptionHelper;

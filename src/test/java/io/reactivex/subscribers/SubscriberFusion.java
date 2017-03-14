@@ -13,7 +13,6 @@
 
 package io.reactivex.subscribers;
 
-import io.reactivex.Flowable;
 import io.reactivex.functions.*;
 import io.reactivex.internal.fuseable.*;
 

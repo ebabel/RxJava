@@ -13,7 +13,6 @@
 
 package io.reactivex.processors;
 
-import io.reactivex.Flowable;
 import io.reactivex.TestHelper;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.exceptions.TestException;

@@ -18,7 +18,6 @@ import java.util.concurrent.Callable;
 
 import io.reactivex.*;
 import io.reactivex.exceptions.Exceptions;
-import io.reactivex.internal.disposables.EmptyDisposable;
 
 public final class ObservableDefer<T> extends Observable<T> {
     final Callable<? extends ObservableSource<? extends T>> supplier;
@@ -32,7 +31,6 @@ public final class ObservableDefer<T> extends Observable<T> {
             pub = ObjectHelper.requireNonNull(supplier.call(), "null publisher supplied");
         } catch (Throwable t) {
             Exceptions.throwIfFatal(t);
-            EmptyDisposable.error(t, s);
             return;
         }
 

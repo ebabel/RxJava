@@ -21,7 +21,6 @@ import java.util.concurrent.Callable;
 import org.junit.Test;
 import org.reactivestreams.Publisher;
 
-import io.reactivex.Flowable;
 import io.reactivex.flowable.FlowableCovarianceTest.*;
 
 public class FlowableMergeTests {

@@ -15,7 +15,6 @@ package io.reactivex.internal.operators.single;
 
 import io.reactivex.*;
 import io.reactivex.exceptions.Exceptions;
-import io.reactivex.internal.disposables.EmptyDisposable;
 import io.reactivex.internal.functions.ObjectHelper;
 
 public final class SingleLift<T, R> extends Single<R> {

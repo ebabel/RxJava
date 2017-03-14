@@ -18,7 +18,6 @@ import java.util.Collections;
 import org.reactivestreams.Publisher;
 import org.testng.annotations.Test;
 
-import io.reactivex.Flowable;
 import io.reactivex.functions.Function;
 
 @Test

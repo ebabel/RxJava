@@ -28,7 +28,6 @@ import org.reactivestreams.*;
 import io.reactivex.*;
 import io.reactivex.Scheduler.Worker;
 import io.reactivex.exceptions.TestException;
-import io.reactivex.internal.subscribers.DeferredScalarSubscriber;
 import io.reactivex.internal.subscriptions.BooleanSubscription;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.processors.PublishProcessor;

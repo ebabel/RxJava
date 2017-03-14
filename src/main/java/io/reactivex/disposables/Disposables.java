@@ -18,7 +18,6 @@ import java.util.concurrent.Future;
 import org.reactivestreams.Subscription;
 
 import io.reactivex.functions.Action;
-import io.reactivex.internal.disposables.EmptyDisposable;
 import io.reactivex.internal.functions.*;
 
 /**

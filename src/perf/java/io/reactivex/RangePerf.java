@@ -18,7 +18,6 @@ import java.util.concurrent.TimeUnit;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 
-import io.reactivex.Flowable;
 import io.reactivex.internal.schedulers.SingleScheduler;
 import io.reactivex.schedulers.Schedulers;
 

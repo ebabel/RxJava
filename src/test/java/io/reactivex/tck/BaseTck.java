@@ -19,7 +19,6 @@ import org.reactivestreams.Publisher;
 import org.reactivestreams.tck.*;
 import org.testng.annotations.Test;
 
-import io.reactivex.Flowable;
 import io.reactivex.exceptions.TestException;
 
 /**

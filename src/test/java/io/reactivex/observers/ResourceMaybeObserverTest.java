@@ -18,7 +18,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Maybe;
 import io.reactivex.TestHelper;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;

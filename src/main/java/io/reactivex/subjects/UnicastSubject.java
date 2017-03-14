@@ -20,7 +20,6 @@ import java.util.concurrent.atomic.*;
 import io.reactivex.Observer;
 import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.internal.disposables.EmptyDisposable;
 import io.reactivex.internal.functions.ObjectHelper;
 import io.reactivex.internal.fuseable.SimpleQueue;
 import io.reactivex.internal.observers.BasicIntQueueDisposable;
@@ -146,8 +145,6 @@ public final class UnicastSubject<T> extends Subject<T> {
                 return;
             }
             drain();
-        } else {
-            EmptyDisposable.error(new IllegalStateException("Only a single observer allowed."), observer);
         }
     }
 

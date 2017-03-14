@@ -20,7 +20,6 @@ import org.reactivestreams.Publisher;
 
 import io.reactivex.*;
 import io.reactivex.functions.Function;
-import io.reactivex.internal.fuseable.HasUpstreamMaybeSource;
 
 public class MaybeToFlowableTest {
 

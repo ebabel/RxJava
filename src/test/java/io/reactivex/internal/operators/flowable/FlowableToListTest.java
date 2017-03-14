@@ -23,7 +23,6 @@ import org.mockito.Mockito;
 import org.reactivestreams.Subscriber;
 
 import io.reactivex.*;
-import io.reactivex.Flowable;
 import io.reactivex.exceptions.TestException;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.processors.PublishProcessor;

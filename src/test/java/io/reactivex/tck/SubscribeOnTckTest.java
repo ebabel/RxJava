@@ -16,7 +16,6 @@ package io.reactivex.tck;
 import org.reactivestreams.Publisher;
 import org.testng.annotations.Test;
 
-import io.reactivex.Flowable;
 import io.reactivex.schedulers.Schedulers;
 
 @Test

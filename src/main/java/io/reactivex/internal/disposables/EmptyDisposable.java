@@ -53,35 +53,17 @@ public enum EmptyDisposable implements QueueDisposable<Object> {
         s.onComplete();
     }
 
-    public static void complete(MaybeObserver<?> s) {
-        s.onSubscribe(INSTANCE);
-        s.onComplete();
-    }
-
     public static void error(Throwable e, Observer<?> s) {
         s.onSubscribe(INSTANCE);
         s.onError(e);
     }
 
-    public static void complete(CompletableObserver s) {
-        s.onSubscribe(INSTANCE);
-        s.onComplete();
-    }
-
-    public static void error(Throwable e, CompletableObserver s) {
-        s.onSubscribe(INSTANCE);
-        s.onError(e);
-    }
 
     public static void error(Throwable e, SingleObserver<?> s) {
         s.onSubscribe(INSTANCE);
         s.onError(e);
     }
 
-    public static void error(Throwable e, MaybeObserver<?> s) {
-        s.onSubscribe(INSTANCE);
-        s.onError(e);
-    }
 
 
     @Override

@@ -13,7 +13,6 @@
 
 package io.reactivex.internal.operators.completable;
 
-import io.reactivex.Completable;
 import io.reactivex.functions.Action;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.Test;

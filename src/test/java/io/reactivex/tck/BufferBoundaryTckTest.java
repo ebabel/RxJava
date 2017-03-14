@@ -18,8 +18,6 @@ import java.util.List;
 import org.reactivestreams.Publisher;
 import org.testng.annotations.Test;
 
-import io.reactivex.Flowable;
-
 @Test
 public class BufferBoundaryTckTest extends BaseTck<List<Long>> {
 

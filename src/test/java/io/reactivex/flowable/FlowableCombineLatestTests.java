@@ -20,7 +20,6 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.*;
 
-import io.reactivex.Flowable;
 import io.reactivex.flowable.FlowableCovarianceTest.*;
 import io.reactivex.functions.*;
 import io.reactivex.processors.BehaviorProcessor;

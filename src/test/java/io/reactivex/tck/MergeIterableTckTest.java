@@ -18,8 +18,6 @@ import java.util.Arrays;
 import org.reactivestreams.Publisher;
 import org.testng.annotations.Test;
 
-import io.reactivex.Flowable;
-
 @Test
 public class MergeIterableTckTest extends BaseTck<Long> {
 

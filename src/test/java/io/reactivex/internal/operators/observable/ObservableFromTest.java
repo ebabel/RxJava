@@ -36,12 +36,6 @@ public class ObservableFromTest {
         .assertFailure(TimeoutException.class);
     }
 
-    @Test
-    public void fromPublisher() {
-        Observable.fromPublisher(Flowable.just(1))
-        .test()
-        .assertResult(1);
-    }
 
     @Test
     public void just10() {
@@ -60,20 +54,6 @@ public class ObservableFromTest {
         assertTrue(Observable.fromArray(1) instanceof ScalarCallable);
     }
 
-    @Test
-    public void fromPublisherDispose() {
-        TestHelper.checkDisposed(Flowable.just(1).toObservable());
-    }
-
-    @Test
-    public void fromPublisherDoubleOnSubscribe() {
-        TestHelper.checkDoubleOnSubscribeFlowableToObservable(new Function<Flowable<Object>, ObservableSource<Object>>() {
-            @Override
-            public ObservableSource<Object> apply(Flowable<Object> f) throws Exception {
-                return f.toObservable();
-            }
-        });
-    }
 
     @Test
     public void fusionRejected() {

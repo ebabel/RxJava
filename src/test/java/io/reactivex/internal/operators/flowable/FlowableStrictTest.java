@@ -23,7 +23,6 @@ import org.reactivestreams.*;
 
 import io.reactivex.*;
 import io.reactivex.exceptions.TestException;
-import io.reactivex.internal.subscribers.StrictSubscriber;
 import io.reactivex.internal.subscriptions.BooleanSubscription;
 import io.reactivex.processors.PublishProcessor;
 import io.reactivex.schedulers.Schedulers;

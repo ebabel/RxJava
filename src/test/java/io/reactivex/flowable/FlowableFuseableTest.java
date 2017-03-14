@@ -16,7 +16,6 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import io.reactivex.Flowable;
 import io.reactivex.internal.fuseable.QueueSubscription;
 import io.reactivex.subscribers.*;
 

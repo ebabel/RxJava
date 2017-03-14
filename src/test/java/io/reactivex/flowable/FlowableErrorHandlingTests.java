@@ -21,7 +21,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.junit.Test;
 import org.reactivestreams.Subscriber;
 
-import io.reactivex.Flowable;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subscribers.DefaultSubscriber;
 

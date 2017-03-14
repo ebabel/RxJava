@@ -23,7 +23,6 @@ import java.util.concurrent.*;
 import org.junit.*;
 import org.reactivestreams.*;
 
-import io.reactivex.Flowable;
 import io.reactivex.exceptions.TestException;
 import io.reactivex.internal.subscriptions.BooleanSubscription;
 

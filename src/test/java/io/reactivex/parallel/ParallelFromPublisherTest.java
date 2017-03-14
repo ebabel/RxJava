@@ -17,7 +17,6 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.reactivestreams.Subscriber;
 
-import io.reactivex.Flowable;
 import io.reactivex.exceptions.*;
 import io.reactivex.functions.Function;
 import io.reactivex.internal.functions.Functions;

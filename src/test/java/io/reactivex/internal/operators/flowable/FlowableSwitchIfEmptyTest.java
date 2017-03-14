@@ -22,8 +22,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.junit.Test;
 import org.reactivestreams.*;
 
-import io.reactivex.Flowable;
-import io.reactivex.FlowableOperator;
 import io.reactivex.functions.Consumer;
 import io.reactivex.internal.subscriptions.BooleanSubscription;
 import io.reactivex.schedulers.Schedulers;

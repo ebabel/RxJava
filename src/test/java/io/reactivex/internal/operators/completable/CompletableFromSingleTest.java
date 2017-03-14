@@ -13,7 +13,6 @@
 
 package io.reactivex.internal.operators.completable;
 
-import io.reactivex.Completable;
 import io.reactivex.Single;
 import org.junit.Test;
 

@@ -21,7 +21,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.junit.Test;
 import org.reactivestreams.*;
 
-import io.reactivex.Flowable;
 import io.reactivex.exceptions.*;
 import io.reactivex.functions.*;
 import io.reactivex.internal.fuseable.QueueSubscription;

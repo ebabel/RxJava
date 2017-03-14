@@ -20,7 +20,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import io.reactivex.functions.Consumer;
 import org.junit.Test;
 
-import io.reactivex.Completable;
 import io.reactivex.schedulers.Schedulers;
 
 import static org.junit.Assert.assertNotEquals;

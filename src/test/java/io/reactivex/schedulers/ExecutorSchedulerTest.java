@@ -25,7 +25,6 @@ import org.junit.*;
 import io.reactivex.*;
 import io.reactivex.Scheduler.Worker;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.internal.disposables.EmptyDisposable;
 import io.reactivex.internal.functions.Functions;
 import io.reactivex.internal.schedulers.*;
 import io.reactivex.plugins.RxJavaPlugins;

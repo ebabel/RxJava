@@ -20,7 +20,6 @@ import java.util.*;
 import org.junit.*;
 import org.reactivestreams.*;
 
-import io.reactivex.Flowable;
 import io.reactivex.exceptions.*;
 import io.reactivex.internal.operators.flowable.BlockingFlowableIterable.BlockingFlowableIterator;
 import io.reactivex.internal.subscriptions.BooleanSubscription;

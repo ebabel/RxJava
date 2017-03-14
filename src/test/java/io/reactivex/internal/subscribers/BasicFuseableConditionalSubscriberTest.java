@@ -20,7 +20,6 @@ import org.junit.Test;
 import org.reactivestreams.Subscription;
 
 import io.reactivex.TestHelper;
-import io.reactivex.internal.fuseable.ConditionalSubscriber;
 import io.reactivex.internal.subscriptions.ScalarSubscription;
 
 public class BasicFuseableConditionalSubscriberTest {

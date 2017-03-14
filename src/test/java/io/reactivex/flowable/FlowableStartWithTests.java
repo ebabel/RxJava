@@ -19,8 +19,6 @@ import java.util.*;
 
 import org.junit.Test;
 
-import io.reactivex.Flowable;
-
 public class FlowableStartWithTests {
 
     @Test

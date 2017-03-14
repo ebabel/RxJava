@@ -18,8 +18,6 @@ import java.util.concurrent.*;
 import org.reactivestreams.Publisher;
 import org.testng.annotations.Test;
 
-import io.reactivex.Flowable;
-
 @Test
 public class TimerTckTest extends BaseTck<Long> {
 

@@ -16,7 +16,6 @@ package io.reactivex.flowable;
 import org.junit.Test;
 import org.reactivestreams.Publisher;
 
-import io.reactivex.Flowable;
 import io.reactivex.flowable.FlowableEventStream.Event;
 import io.reactivex.flowables.GroupedFlowable;
 import io.reactivex.functions.*;

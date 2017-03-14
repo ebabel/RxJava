@@ -18,7 +18,6 @@ import org.junit.Test;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
-import io.reactivex.Maybe;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.TestScheduler;
 

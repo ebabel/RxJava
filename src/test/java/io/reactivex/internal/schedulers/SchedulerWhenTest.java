@@ -21,8 +21,6 @@ import java.util.concurrent.Callable;
 
 import org.junit.Test;
 
-import io.reactivex.Completable;
-import io.reactivex.Flowable;
 import io.reactivex.Scheduler;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;

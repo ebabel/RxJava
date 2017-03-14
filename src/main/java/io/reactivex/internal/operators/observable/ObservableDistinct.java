@@ -20,7 +20,6 @@ import io.reactivex.*;
 import io.reactivex.annotations.Nullable;
 import io.reactivex.exceptions.Exceptions;
 import io.reactivex.functions.Function;
-import io.reactivex.internal.disposables.EmptyDisposable;
 import io.reactivex.internal.functions.ObjectHelper;
 import io.reactivex.internal.observers.BasicFuseableObserver;
 import io.reactivex.plugins.RxJavaPlugins;
@@ -45,7 +44,6 @@ public final class ObservableDistinct<T, K> extends AbstractObservableWithUpstre
             collection = ObjectHelper.requireNonNull(collectionSupplier.call(), "The collectionSupplier returned a null collection. Null values are generally not allowed in 2.x operators and sources.");
         } catch (Throwable ex) {
             Exceptions.throwIfFatal(ex);
-            EmptyDisposable.error(ex, observer);
             return;
         }
 

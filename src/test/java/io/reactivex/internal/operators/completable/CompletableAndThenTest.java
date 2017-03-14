@@ -13,8 +13,6 @@
 
 package io.reactivex.internal.operators.completable;
 
-import io.reactivex.Completable;
-import io.reactivex.Maybe;
 import org.junit.Test;
 
 public class CompletableAndThenTest {

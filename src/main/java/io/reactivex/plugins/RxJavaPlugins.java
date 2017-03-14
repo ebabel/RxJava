@@ -12,11 +12,6 @@
  */
 package io.reactivex.plugins;
 
-import io.reactivex.Completable;
-import io.reactivex.CompletableObserver;
-import io.reactivex.Flowable;
-import io.reactivex.Maybe;
-import io.reactivex.MaybeObserver;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.Scheduler;
@@ -26,7 +21,6 @@ import io.reactivex.annotations.Experimental;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.annotations.Nullable;
 import io.reactivex.exceptions.*;
-import io.reactivex.flowables.ConnectableFlowable;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.BooleanSupplier;
 import io.reactivex.functions.Consumer;
@@ -38,9 +32,7 @@ import io.reactivex.internal.schedulers.NewThreadScheduler;
 import io.reactivex.internal.schedulers.SingleScheduler;
 import io.reactivex.internal.util.ExceptionHelper;
 import io.reactivex.observables.ConnectableObservable;
-import io.reactivex.parallel.ParallelFlowable;
 import io.reactivex.schedulers.Schedulers;
-import org.reactivestreams.Subscriber;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.concurrent.Callable;
@@ -81,14 +73,6 @@ public final class RxJavaPlugins {
 
     @SuppressWarnings("rawtypes")
     @Nullable
-    static volatile Function<? super Flowable, ? extends Flowable> onFlowableAssembly;
-
-    @SuppressWarnings("rawtypes")
-    @Nullable
-    static volatile Function<? super ConnectableFlowable, ? extends ConnectableFlowable> onConnectableFlowableAssembly;
-
-    @SuppressWarnings("rawtypes")
-    @Nullable
     static volatile Function<? super Observable, ? extends Observable> onObservableAssembly;
 
     @SuppressWarnings("rawtypes")
@@ -97,25 +81,7 @@ public final class RxJavaPlugins {
 
     @SuppressWarnings("rawtypes")
     @Nullable
-    static volatile Function<? super Maybe, ? extends Maybe> onMaybeAssembly;
-
-    @SuppressWarnings("rawtypes")
-    @Nullable
     static volatile Function<? super Single, ? extends Single> onSingleAssembly;
-
-    static volatile Function<? super Completable, ? extends Completable> onCompletableAssembly;
-
-    @SuppressWarnings("rawtypes")
-    @Nullable
-    static volatile Function<? super ParallelFlowable, ? extends ParallelFlowable> onParallelAssembly;
-
-    @SuppressWarnings("rawtypes")
-    @Nullable
-    static volatile BiFunction<? super Flowable, ? super Subscriber, ? extends Subscriber> onFlowableSubscribe;
-
-    @SuppressWarnings("rawtypes")
-    @Nullable
-    static volatile BiFunction<? super Maybe, ? super MaybeObserver, ? extends MaybeObserver> onMaybeSubscribe;
 
     @SuppressWarnings("rawtypes")
     @Nullable
@@ -124,9 +90,6 @@ public final class RxJavaPlugins {
     @SuppressWarnings("rawtypes")
     @Nullable
     static volatile BiFunction<? super Single, ? super SingleObserver, ? extends SingleObserver> onSingleSubscribe;
-
-    @Nullable
-    static volatile BiFunction<? super Completable, ? super CompletableObserver, ? extends CompletableObserver> onCompletableSubscribe;
 
     @Nullable
     static volatile BooleanSupplier onBeforeBlocking;
@@ -503,25 +466,13 @@ public final class RxJavaPlugins {
         setNewThreadSchedulerHandler(null);
         setInitNewThreadSchedulerHandler(null);
 
-        setOnFlowableAssembly(null);
-        setOnFlowableSubscribe(null);
-
         setOnObservableAssembly(null);
         setOnObservableSubscribe(null);
 
         setOnSingleAssembly(null);
         setOnSingleSubscribe(null);
 
-        setOnCompletableAssembly(null);
-        setOnCompletableSubscribe(null);
-
-        setOnConnectableFlowableAssembly(null);
         setOnConnectableObservableAssembly(null);
-
-        setOnMaybeAssembly(null);
-        setOnMaybeSubscribe(null);
-
-        setOnParallelAssembly(null);
 
         setFailOnNonBlockingScheduler(false);
         setOnBeforeBlocking(null);
@@ -649,74 +600,6 @@ public final class RxJavaPlugins {
      * @return the hook function, may be null
      */
     @Nullable
-    public static Function<? super Completable, ? extends Completable> getOnCompletableAssembly() {
-        return onCompletableAssembly;
-    }
-
-    /**
-     * Returns the current hook function.
-     * @return the hook function, may be null
-     */
-    @Nullable
-    public static BiFunction<? super Completable, ? super CompletableObserver, ? extends CompletableObserver> getOnCompletableSubscribe() {
-        return onCompletableSubscribe;
-    }
-
-    /**
-     * Returns the current hook function.
-     * @return the hook function, may be null
-     */
-    @SuppressWarnings("rawtypes")
-    @Nullable
-    public static Function<? super Flowable, ? extends Flowable> getOnFlowableAssembly() {
-        return onFlowableAssembly;
-    }
-
-    /**
-     * Returns the current hook function.
-     * @return the hook function, may be null
-     */
-    @SuppressWarnings("rawtypes")
-    @Nullable
-    public static Function<? super ConnectableFlowable, ? extends ConnectableFlowable> getOnConnectableFlowableAssembly() {
-        return onConnectableFlowableAssembly;
-    }
-
-    /**
-     * Returns the current hook function.
-     * @return the hook function, may be null
-     */
-    @Nullable
-    @SuppressWarnings("rawtypes")
-    public static BiFunction<? super Flowable, ? super Subscriber, ? extends Subscriber> getOnFlowableSubscribe() {
-        return onFlowableSubscribe;
-    }
-
-    /**
-     * Returns the current hook function.
-     * @return the hook function, may be null
-     */
-    @Nullable
-    @SuppressWarnings("rawtypes")
-    public static BiFunction<? super Maybe, ? super MaybeObserver, ? extends MaybeObserver> getOnMaybeSubscribe() {
-        return onMaybeSubscribe;
-    }
-
-    /**
-     * Returns the current hook function.
-     * @return the hook function, may be null
-     */
-    @Nullable
-    @SuppressWarnings("rawtypes")
-    public static Function<? super Maybe, ? extends Maybe> getOnMaybeAssembly() {
-        return onMaybeAssembly;
-    }
-
-    /**
-     * Returns the current hook function.
-     * @return the hook function, may be null
-     */
-    @Nullable
     @SuppressWarnings("rawtypes")
     public static Function<? super Single, ? extends Single> getOnSingleAssembly() {
         return onSingleAssembly;
@@ -760,89 +643,6 @@ public final class RxJavaPlugins {
     @SuppressWarnings("rawtypes")
     public static BiFunction<? super Observable, ? super Observer, ? extends Observer> getOnObservableSubscribe() {
         return onObservableSubscribe;
-    }
-
-    /**
-     * Sets the specific hook function.
-     * @param onCompletableAssembly the hook function to set, null allowed
-     */
-    public static void setOnCompletableAssembly(@Nullable Function<? super Completable, ? extends Completable> onCompletableAssembly) {
-        if (lockdown) {
-            throw new IllegalStateException("Plugins can't be changed anymore");
-        }
-        RxJavaPlugins.onCompletableAssembly = onCompletableAssembly;
-    }
-
-    /**
-     * Sets the specific hook function.
-     * @param onCompletableSubscribe the hook function to set, null allowed
-     */
-    public static void setOnCompletableSubscribe(
-            @Nullable BiFunction<? super Completable, ? super CompletableObserver, ? extends CompletableObserver> onCompletableSubscribe) {
-        if (lockdown) {
-            throw new IllegalStateException("Plugins can't be changed anymore");
-        }
-        RxJavaPlugins.onCompletableSubscribe = onCompletableSubscribe;
-    }
-
-    /**
-     * Sets the specific hook function.
-     * @param onFlowableAssembly the hook function to set, null allowed
-     */
-    @SuppressWarnings("rawtypes")
-    public static void setOnFlowableAssembly(@Nullable Function<? super Flowable, ? extends Flowable> onFlowableAssembly) {
-        if (lockdown) {
-            throw new IllegalStateException("Plugins can't be changed anymore");
-        }
-        RxJavaPlugins.onFlowableAssembly = onFlowableAssembly;
-    }
-
-    /**
-     * Sets the specific hook function.
-     * @param onMaybeAssembly the hook function to set, null allowed
-     */
-    @SuppressWarnings("rawtypes")
-    public static void setOnMaybeAssembly(@Nullable Function<? super Maybe, ? extends Maybe> onMaybeAssembly) {
-        if (lockdown) {
-            throw new IllegalStateException("Plugins can't be changed anymore");
-        }
-        RxJavaPlugins.onMaybeAssembly = onMaybeAssembly;
-    }
-
-    /**
-     * Sets the specific hook function.
-     * @param onConnectableFlowableAssembly the hook function to set, null allowed
-     */
-    @SuppressWarnings("rawtypes")
-    public static void setOnConnectableFlowableAssembly(@Nullable Function<? super ConnectableFlowable, ? extends ConnectableFlowable> onConnectableFlowableAssembly) {
-        if (lockdown) {
-            throw new IllegalStateException("Plugins can't be changed anymore");
-        }
-        RxJavaPlugins.onConnectableFlowableAssembly = onConnectableFlowableAssembly;
-    }
-
-    /**
-     * Sets the specific hook function.
-     * @param onFlowableSubscribe the hook function to set, null allowed
-     */
-    @SuppressWarnings("rawtypes")
-    public static void setOnFlowableSubscribe(@Nullable BiFunction<? super Flowable, ? super Subscriber, ? extends Subscriber> onFlowableSubscribe) {
-        if (lockdown) {
-            throw new IllegalStateException("Plugins can't be changed anymore");
-        }
-        RxJavaPlugins.onFlowableSubscribe = onFlowableSubscribe;
-    }
-
-    /**
-     * Sets the specific hook function.
-     * @param onMaybeSubscribe the hook function to set, null allowed
-     */
-    @SuppressWarnings("rawtypes")
-    public static void setOnMaybeSubscribe(@Nullable BiFunction<? super Maybe, MaybeObserver, ? extends MaybeObserver> onMaybeSubscribe) {
-        if (lockdown) {
-            throw new IllegalStateException("Plugins can't be changed anymore");
-        }
-        RxJavaPlugins.onMaybeSubscribe = onMaybeSubscribe;
     }
 
     /**
@@ -910,23 +710,6 @@ public final class RxJavaPlugins {
      * Calls the associated hook function.
      * @param <T> the value type
      * @param source the hook's input value
-     * @param subscriber the subscriber
-     * @return the value returned by the hook
-     */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @NonNull
-    public static <T> Subscriber<? super T> onSubscribe(@NonNull Flowable<T> source, @NonNull Subscriber<? super T> subscriber) {
-        BiFunction<? super Flowable, ? super Subscriber, ? extends Subscriber> f = onFlowableSubscribe;
-        if (f != null) {
-            return apply(f, source, subscriber);
-        }
-        return subscriber;
-    }
-
-    /**
-     * Calls the associated hook function.
-     * @param <T> the value type
-     * @param source the hook's input value
      * @param observer the observer
      * @return the value returned by the hook
      */
@@ -955,86 +738,6 @@ public final class RxJavaPlugins {
             return apply(f, source, observer);
         }
         return observer;
-    }
-
-    /**
-     * Calls the associated hook function.
-     * @param source the hook's input value
-     * @param observer the observer
-     * @return the value returned by the hook
-     */
-    @NonNull
-    public static CompletableObserver onSubscribe(@NonNull Completable source, @NonNull CompletableObserver observer) {
-        BiFunction<? super Completable, ? super CompletableObserver, ? extends CompletableObserver> f = onCompletableSubscribe;
-        if (f != null) {
-            return apply(f, source, observer);
-        }
-        return observer;
-    }
-
-    /**
-     * Calls the associated hook function.
-     * @param <T> the value type
-     * @param source the hook's input value
-     * @param subscriber the subscriber
-     * @return the value returned by the hook
-     */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @NonNull
-    public static <T> MaybeObserver<? super T> onSubscribe(@NonNull Maybe<T> source, @NonNull MaybeObserver<? super T> subscriber) {
-        BiFunction<? super Maybe, ? super MaybeObserver, ? extends MaybeObserver> f = onMaybeSubscribe;
-        if (f != null) {
-            return apply(f, source, subscriber);
-        }
-        return subscriber;
-    }
-
-    /**
-     * Calls the associated hook function.
-     * @param <T> the value type
-     * @param source the hook's input value
-     * @return the value returned by the hook
-     */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @NonNull
-    public static <T> Maybe<T> onAssembly(@NonNull Maybe<T> source) {
-        Function<? super Maybe, ? extends Maybe> f = onMaybeAssembly;
-        if (f != null) {
-            return apply(f, source);
-        }
-        return source;
-    }
-
-    /**
-     * Calls the associated hook function.
-     * @param <T> the value type
-     * @param source the hook's input value
-     * @return the value returned by the hook
-     */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @NonNull
-    public static <T> Flowable<T> onAssembly(@NonNull Flowable<T> source) {
-        Function<? super Flowable, ? extends Flowable> f = onFlowableAssembly;
-        if (f != null) {
-            return apply(f, source);
-        }
-        return source;
-    }
-
-    /**
-     * Calls the associated hook function.
-     * @param <T> the value type
-     * @param source the hook's input value
-     * @return the value returned by the hook
-     */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @NonNull
-    public static <T> ConnectableFlowable<T> onAssembly(@NonNull ConnectableFlowable<T> source) {
-        Function<? super ConnectableFlowable, ? extends ConnectableFlowable> f = onConnectableFlowableAssembly;
-        if (f != null) {
-            return apply(f, source);
-        }
-        return source;
     }
 
     /**
@@ -1079,64 +782,6 @@ public final class RxJavaPlugins {
     @NonNull
     public static <T> Single<T> onAssembly(@NonNull Single<T> source) {
         Function<? super Single, ? extends Single> f = onSingleAssembly;
-        if (f != null) {
-            return apply(f, source);
-        }
-        return source;
-    }
-
-    /**
-     * Calls the associated hook function.
-     * @param source the hook's input value
-     * @return the value returned by the hook
-     */
-    @NonNull
-    public static Completable onAssembly(@NonNull Completable source) {
-        Function<? super Completable, ? extends Completable> f = onCompletableAssembly;
-        if (f != null) {
-            return apply(f, source);
-        }
-        return source;
-    }
-
-    /**
-     * Sets the specific hook function.
-     * @param handler the hook function to set, null allowed
-     * @since 2.0.6 - experimental
-     */
-    @Experimental
-    @SuppressWarnings("rawtypes")
-    public static void setOnParallelAssembly(@Nullable Function<? super ParallelFlowable, ? extends ParallelFlowable> handler) {
-        if (lockdown) {
-            throw new IllegalStateException("Plugins can't be changed anymore");
-        }
-        onParallelAssembly = handler;
-    }
-
-    /**
-     * Returns the current hook function.
-     * @return the hook function, may be null
-     * @since 2.0.6 - experimental
-     */
-    @Experimental
-    @SuppressWarnings("rawtypes")
-    @Nullable
-    public static Function<? super ParallelFlowable, ? extends ParallelFlowable> getOnParallelAssembly() {
-        return onParallelAssembly;
-    }
-
-    /**
-     * Calls the associated hook function.
-     * @param <T> the value type of the source
-     * @param source the hook's input value
-     * @return the value returned by the hook
-     * @since 2.0.6 - experimental
-     */
-    @Experimental
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @NonNull
-    public static <T> ParallelFlowable<T> onAssembly(@NonNull ParallelFlowable<T> source) {
-        Function<? super ParallelFlowable, ? extends ParallelFlowable> f = onParallelAssembly;
         if (f != null) {
             return apply(f, source);
         }

@@ -15,8 +15,6 @@ package io.reactivex.internal.operators.maybe;
 
 import org.junit.Test;
 
-import io.reactivex.Maybe;
-
 public class MaybeMergeWithTest {
 
     @Test

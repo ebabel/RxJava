@@ -17,7 +17,6 @@ import java.util.concurrent.Callable;
 
 import io.reactivex.*;
 import io.reactivex.exceptions.Exceptions;
-import io.reactivex.internal.disposables.EmptyDisposable;
 
 public final class SingleFromCallable<T> extends Single<T> {
 

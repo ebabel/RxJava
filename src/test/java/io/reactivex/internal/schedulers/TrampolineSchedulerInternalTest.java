@@ -23,7 +23,6 @@ import java.util.concurrent.TimeUnit;
 import org.junit.Test;
 
 import io.reactivex.Scheduler.Worker;
-import io.reactivex.internal.disposables.EmptyDisposable;
 import io.reactivex.internal.functions.Functions;
 import io.reactivex.schedulers.Schedulers;
 

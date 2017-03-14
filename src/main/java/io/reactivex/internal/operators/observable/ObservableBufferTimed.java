@@ -113,7 +113,6 @@ extends AbstractObservableWithUpstream<T, U> {
                 } catch (Throwable e) {
                     Exceptions.throwIfFatal(e);
                     dispose();
-                    EmptyDisposable.error(e, actual);
                     return;
                 }
 
@@ -250,7 +249,6 @@ extends AbstractObservableWithUpstream<T, U> {
                 } catch (Throwable e) {
                     Exceptions.throwIfFatal(e);
                     s.dispose();
-                    EmptyDisposable.error(e, actual);
                     w.dispose();
                     return;
                 }
@@ -431,7 +429,6 @@ extends AbstractObservableWithUpstream<T, U> {
                 } catch (Throwable e) {
                     Exceptions.throwIfFatal(e);
                     s.dispose();
-                    EmptyDisposable.error(e, actual);
                     w.dispose();
                     return;
                 }

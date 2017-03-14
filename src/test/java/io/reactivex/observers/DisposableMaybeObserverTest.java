@@ -21,7 +21,6 @@ import org.junit.Test;
 
 import io.reactivex.*;
 import io.reactivex.disposables.*;
-import io.reactivex.observers.DisposableMaybeObserver;
 import io.reactivex.plugins.RxJavaPlugins;
 
 public class DisposableMaybeObserverTest {

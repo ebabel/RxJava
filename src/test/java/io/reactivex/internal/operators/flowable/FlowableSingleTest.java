@@ -25,7 +25,6 @@ import org.mockito.InOrder;
 import org.reactivestreams.*;
 
 import io.reactivex.*;
-import io.reactivex.Flowable;
 import io.reactivex.functions.*;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.subscribers.DefaultSubscriber;
