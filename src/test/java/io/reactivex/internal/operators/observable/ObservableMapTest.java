@@ -187,39 +187,6 @@ public class ObservableMapTest {
                 }).test().values().get(0);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testMapWithErrorInFuncAndThreadPoolScheduler() throws InterruptedException {
-        // The error will throw in one of threads in the thread pool.
-        // If map does not handle it, the error will disappear.
-        // so map needs to handle the error by itself.
-        Observable<String> m = Observable.just("one")
-                .observeOn(Schedulers.computation())
-                .map(new Function<String, String>() {
-                    @Override
-                    public String apply(String arg0) {
-                        throw new IllegalArgumentException("any error");
-                    }
-                });
-
-        // block for response, expecting exception thrown
-        m.blockingLast();
-    }
-
-    /**
-     * While mapping over range(1,0).last() we expect NoSuchElementException since the sequence is empty.
-     */
-    @Test
-    public void testErrorPassesThruMap() {
-        assertNull(Observable.range(1, 0).lastElement().map(new Function<Integer, Integer>() {
-
-            @Override
-            public Integer apply(Integer i) {
-                return i;
-            }
-
-        }).test().values().get(0));
-    }
-
     /**
      * We expect IllegalStateException to pass thru map.
      */
@@ -235,21 +202,6 @@ public class ObservableMapTest {
         }).test().values().get(0);
     }
 
-    /**
-     * We expect an ArithmeticException exception here because last() emits a single value
-     * but then we divide by 0.
-     */
-    @Test(expected = ArithmeticException.class)
-    public void testMapWithErrorInFunc() {
-        Observable.range(1, 1).lastElement().map(new Function<Integer, Integer>() {
-
-            @Override
-            public Integer apply(Integer i) {
-                return i / 0;
-            }
-
-        }).test().values().get(0);
-    }
 
     // FIXME RS subscribers can't throw
 //    @Test(expected = OnErrorNotImplementedException.class)
