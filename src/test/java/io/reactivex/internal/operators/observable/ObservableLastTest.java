@@ -31,20 +31,20 @@ public class ObservableLastTest {
     @Test
     public void testLastWithElements() {
         Maybe<Integer> last = Observable.just(1, 2, 3).lastElement();
-        assertEquals(3, last.blockingGet().intValue());
+        assertEquals(3, last.test().values().get(0).intValue());
     }
 
     @Test
     public void testLastWithNoElements() {
         Maybe<?> last = Observable.empty().lastElement();
-        assertNull(last.blockingGet());
+        assertNull(last.test().values().get(0));
     }
 
     @Test
     public void testLastMultiSubscribe() {
         Maybe<Integer> last = Observable.just(1, 2, 3).lastElement();
-        assertEquals(3, last.blockingGet().intValue());
-        assertEquals(3, last.blockingGet().intValue());
+        assertEquals(3, last.test().values().get(0).intValue());
+        assertEquals(3, last.test().values().get(0).intValue());
     }
 
     @Test

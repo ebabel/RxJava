@@ -138,7 +138,7 @@ public class SingleNullTests {
 
     @Test(expected = NullPointerException.class)
     public void deferReturnsNull() {
-        Single.defer(Functions.<Single<Object>>nullSupplier()).blockingGet();
+        Single.defer(Functions.<Single<Object>>nullSupplier()).test().values().get(0);
     }
 
     @Test(expected = NullPointerException.class)
@@ -148,7 +148,7 @@ public class SingleNullTests {
 
     @Test(expected = NullPointerException.class)
     public void errorSupplierReturnsNull() {
-        Single.error(Functions.<Throwable>nullSupplier()).blockingGet();
+        Single.error(Functions.<Throwable>nullSupplier()).test().values().get(0);
     }
 
     @Test(expected = NullPointerException.class)
@@ -168,7 +168,7 @@ public class SingleNullTests {
             public Object call() throws Exception {
                 return null;
             }
-        }).blockingGet();
+        }).test().values().get(0);
     }
 
     @Test(expected = NullPointerException.class)
@@ -180,54 +180,7 @@ public class SingleNullTests {
     public void fromFutureReturnsNull() {
         FutureTask<Object> f = new FutureTask<Object>(Functions.EMPTY_RUNNABLE, null);
         f.run();
-        Single.fromFuture(f).blockingGet();
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void fromFutureTimedFutureNull() {
-        Single.fromFuture(null, 1, TimeUnit.SECONDS);
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void fromFutureTimedUnitNull() {
-        Single.fromFuture(new FutureTask<Object>(new Callable<Object>() {
-            @Override
-            public Object call() throws Exception {
-                return null;
-            }
-        }), 1, null);
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void fromFutureTimedSchedulerNull() {
-        Single.fromFuture(new FutureTask<Object>(new Callable<Object>() {
-            @Override
-            public Object call() throws Exception {
-                return null;
-            }
-        }), 1, TimeUnit.SECONDS, null);
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void fromFutureTimedReturnsNull() {
-        FutureTask<Object> f = new FutureTask<Object>(Functions.EMPTY_RUNNABLE, null);
-        f.run();
-        Single.fromFuture(f, 1, TimeUnit.SECONDS).blockingGet();
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void fromFutureSchedulerNull() {
-        Single.fromFuture(new FutureTask<Object>(new Callable<Object>() {
-            @Override
-            public Object call() throws Exception {
-                return null;
-            }
-        }), null);
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void fromPublisherNull() {
-        Single.fromPublisher(null);
+        Single.fromFuture(f).test().values().get(0);
     }
 
     @Test(expected = NullPointerException.class)
@@ -235,20 +188,6 @@ public class SingleNullTests {
         Single.just(null);
     }
 
-    @Test(expected = NullPointerException.class)
-    public void mergeIterableNull() {
-        Single.merge((Iterable<Single<Integer>>)null);
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void mergeIterableIteratorNull() {
-        Single.merge(new Iterable<Single<Object>>() {
-            @Override
-            public Iterator<Single<Object>> iterator() {
-                return null;
-            }
-        }).blockingSubscribe();
-    }
 
     @SuppressWarnings("unchecked")
     @Test(expected = NullPointerException.class)
@@ -342,7 +281,7 @@ public class SingleNullTests {
             public Single<Object> apply(Object d) {
                 return null;
             }
-        }, Functions.emptyConsumer()).blockingGet();
+        }, Functions.emptyConsumer()).test().values().get(0);
     }
 
     @Test(expected = NullPointerException.class)
@@ -382,7 +321,7 @@ public class SingleNullTests {
             public Object apply(Object[] v) {
                 return 1;
             }
-        }).blockingGet();
+        }).test().values().get(0);
     }
 
     @SuppressWarnings("unchecked")
@@ -393,13 +332,13 @@ public class SingleNullTests {
             public Object apply(Object[] v) {
                 return 1;
             }
-        }).blockingGet();
+        }).test().values().get(0);
     }
 
     @SuppressWarnings("unchecked")
     @Test(expected = NullPointerException.class)
     public void zipIterableOneFunctionNull() {
-        Single.zip(Arrays.asList(just1, just1), null).blockingGet();
+        Single.zip(Arrays.asList(just1, just1), null).test().values().get(0);
     }
 
     @SuppressWarnings("unchecked")
@@ -410,7 +349,7 @@ public class SingleNullTests {
             public Object apply(Object[] v) {
                 return null;
             }
-        }).blockingGet();
+        }).test().values().get(0);
     }
 
     @SuppressWarnings("unchecked")
@@ -453,7 +392,7 @@ public class SingleNullTests {
                     }
                 });
                 try {
-                    ((Single<Object>)m.invoke(null, values)).blockingGet();
+                    ((Single<Object>)m.invoke(null, values)).test().values().get(0);
                     Assert.fail("No exception for argCount " + argCount + " / argNull " + argNull);
                 } catch (InvocationTargetException ex) {
                     if (!(ex.getCause() instanceof NullPointerException)) {
@@ -517,7 +456,7 @@ public class SingleNullTests {
             public Object apply(Integer a, Object b) {
                 return null;
             }
-        }).blockingGet();
+        }).test().values().get(0);
     }
 
     @Test(expected = NullPointerException.class)
@@ -539,7 +478,7 @@ public class SingleNullTests {
                 return 1;
             }
         })
-        .blockingGet();
+        .test().values().get(0);
     }
 
     @SuppressWarnings("unchecked")
@@ -551,7 +490,7 @@ public class SingleNullTests {
                 return 1;
             }
         }, just1, null)
-        .blockingGet();
+        .test().values().get(0);
     }
 
     @SuppressWarnings("unchecked")
@@ -568,7 +507,7 @@ public class SingleNullTests {
             public Object apply(Object[] v) {
                 return null;
             }
-        }, just1, just1).blockingGet();
+        }, just1, just1).test().values().get(0);
     }
 
     //**************************************************
@@ -637,7 +576,7 @@ public class SingleNullTests {
             public Single<Object> apply(Integer v) {
                 return null;
             }
-        }).blockingGet();
+        }).test().values().get(0);
     }
 
     @Test(expected = NullPointerException.class)
@@ -667,7 +606,7 @@ public class SingleNullTests {
             public SingleObserver<? super Integer> apply(SingleObserver<? super Object> s) {
                 return null;
             }
-        }).blockingGet();
+        }).test().values().get(0);
     }
 
     @Test(expected = NullPointerException.class)
@@ -702,7 +641,7 @@ public class SingleNullTests {
             public Integer apply(Throwable t) throws Exception {
                 return null;
             }
-        }).blockingGet();
+        }).test().values().get(0);
     }
 
     @Test(expected = NullPointerException.class)
@@ -728,7 +667,7 @@ public class SingleNullTests {
                 public Single<Integer> apply(Throwable e) {
                     return null;
                 }
-            }).blockingGet();
+            }).test().values().get(0);
         } catch (CompositeException ex) {
             assertTrue(ex.toString(), ex.getExceptions().get(1) instanceof NullPointerException);
         }
@@ -776,7 +715,7 @@ public class SingleNullTests {
             public Publisher<Object> apply(Flowable<? extends Throwable> e) {
                 return null;
             }
-        }).blockingGet();
+        }).test().values().get(0);
     }
 
     @Test(expected = NullPointerException.class)
@@ -866,6 +805,6 @@ public class SingleNullTests {
             public Object apply(Integer a, Integer b) {
                 return null;
             }
-        }).blockingGet();
+        }).test().values().get(0);
     }
 }

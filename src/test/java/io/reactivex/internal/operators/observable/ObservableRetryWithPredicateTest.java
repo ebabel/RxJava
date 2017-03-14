@@ -304,7 +304,7 @@ public class ObservableRetryWithPredicateTest {
                 }
                 return t1;
             }
-        }).retry(1).blockingSingle();
+        }).retry(1).test().values().get(0);
 
         assertEquals(1, value);
     }

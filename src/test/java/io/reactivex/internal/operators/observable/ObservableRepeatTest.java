@@ -55,7 +55,7 @@ public class ObservableRepeatTest {
     @Test(timeout = 2000)
     public void testRepeatTake() {
         Observable<Integer> xs = Observable.just(1, 2);
-        Object[] ys = xs.repeat().subscribeOn(Schedulers.newThread()).take(4).toList().blockingGet().toArray();
+        Object[] ys = xs.repeat().subscribeOn(Schedulers.newThread()).take(4).toList().test().values().get(0).toArray();
         assertArrayEquals(new Object[] { 1, 2, 1, 2 }, ys);
     }
 
@@ -92,7 +92,7 @@ public class ObservableRepeatTest {
                 return t1;
             }
 
-        }).take(4).toList().blockingGet().toArray();
+        }).take(4).toList().test().values().get(0).toArray();
 
         assertEquals(2, counter.get());
         assertArrayEquals(new Object[] { 1, 2, 1, 2 }, ys);

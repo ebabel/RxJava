@@ -264,7 +264,7 @@ public class AsyncSubjectTest {
         public void run() {
             try {
                 // a timeout exception will happen if we don't get a terminal state
-                String v = subject.timeout(2000, TimeUnit.MILLISECONDS).blockingSingle();
+                String v = subject.timeout(2000, TimeUnit.MILLISECONDS).test().values().get(0);
                 value.set(v);
             } catch (Exception e) {
                 e.printStackTrace();

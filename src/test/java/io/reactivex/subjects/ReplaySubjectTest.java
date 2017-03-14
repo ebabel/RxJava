@@ -364,32 +364,6 @@ public class ReplaySubjectTest {
             String v = "" + i;
             src.onNext(v);
             System.out.printf("Turn: %d%n", i);
-            src.firstElement()
-                .toObservable()
-                .flatMap(new Function<String, Observable<String>>() {
-
-                    @Override
-                    public Observable<String> apply(String t1) {
-                        return Observable.just(t1 + ", " + t1);
-                    }
-                })
-                .subscribe(new DefaultObserver<String>() {
-                    @Override
-                    public void onNext(String t) {
-                        System.out.println(t);
-                        o.onNext(t);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        o.onError(e);
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        o.onComplete();
-                    }
-                });
             inOrder.verify(o).onNext("0, 0");
             inOrder.verify(o).onComplete();
             verify(o, never()).onError(any(Throwable.class));

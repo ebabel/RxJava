@@ -19,7 +19,6 @@ import io.reactivex.Single;
 import io.reactivex.exceptions.TestException;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.subjects.PublishSubject;
-import io.reactivex.subscribers.TestSubscriber;
 
 public class SingleCacheTest {
 
@@ -84,53 +83,5 @@ public class SingleCacheTest {
         ts2.assertResult(1);
     }
 
-    @Test
-    public void crossCancel() {
-        PublishSubject<Integer> ps = PublishSubject.create();
-        Single<Integer> cache = ps.single(-99).cache();
-
-        final TestSubscriber<Integer> ts1 = new TestSubscriber<Integer>();
-
-        TestSubscriber<Integer> ts2 = new TestSubscriber<Integer>() {
-            @Override
-            public void onNext(Integer t) {
-                super.onNext(t);
-                ts1.cancel();
-            }
-        };
-
-        cache.toFlowable().subscribe(ts2);
-        cache.toFlowable().subscribe(ts1);
-
-        ps.onNext(1);
-        ps.onComplete();
-
-        ts1.assertNoValues().assertNoErrors().assertNotComplete();
-        ts2.assertResult(1);
-    }
-
-    @Test
-    public void crossCancelOnError() {
-        PublishSubject<Integer> ps = PublishSubject.create();
-        Single<Integer> cache = ps.single(-99).cache();
-
-        final TestSubscriber<Integer> ts1 = new TestSubscriber<Integer>();
-
-        TestSubscriber<Integer> ts2 = new TestSubscriber<Integer>() {
-            @Override
-            public void onError(Throwable t) {
-                super.onError(t);
-                ts1.cancel();
-            }
-        };
-
-        cache.toFlowable().subscribe(ts2);
-        cache.toFlowable().subscribe(ts1);
-
-        ps.onError(new TestException());
-
-        ts1.assertNoValues().assertNoErrors().assertNotComplete();
-        ts2.assertFailure(TestException.class);
-    }
 
 }

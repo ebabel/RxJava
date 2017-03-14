@@ -199,7 +199,7 @@ public class ObservableAmbTest {
                         //
                     }
             }
-        }).ambWith(Observable.just(2)).blockingSingle();
+        }).ambWith(Observable.just(2)).test().values().get(0);
         assertEquals(1, result);
     }
 

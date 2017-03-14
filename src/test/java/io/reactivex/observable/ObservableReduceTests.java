@@ -31,7 +31,7 @@ public class ObservableReduceTests {
             public Integer apply(Integer t1, Integer t2) {
                 return t1 + t2;
             }
-        }).toObservable().blockingSingle();
+        }).toObservable().test().values().get(0);
 
         assertEquals(6, value);
     }
@@ -86,7 +86,7 @@ public class ObservableReduceTests {
             public Integer apply(Integer t1, Integer t2) {
                 return t1 + t2;
             }
-        }).blockingGet();
+        }).test().values().get(0);
 
         assertEquals(6, value);
     }

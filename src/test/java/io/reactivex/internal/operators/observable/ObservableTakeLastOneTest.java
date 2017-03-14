@@ -87,7 +87,7 @@ public class ObservableTakeLastOneTest {
             public void accept(Integer t) {
                 upstreamCount.incrementAndGet();
             }})
-            .takeLast(0).count().blockingGet();
+            .takeLast(0).count().test().values().get(0);
         assertEquals(num, upstreamCount.get());
         assertEquals(0L, count);
     }

@@ -654,7 +654,7 @@ public class ObservableConcatTest {
                 (int) Observable.<Integer> empty()
                         .concatWith(Observable.just(1))
                         .take(1)
-                        .blockingSingle());
+                        .test().values().get(0));
     }
 
     // https://github.com/ReactiveX/RxJava/issues/1818
@@ -972,7 +972,7 @@ public class ObservableConcatTest {
             }
         });
 
-        Observable.concatArray(source, source).firstElement()
+        Observable.concatArray(source, source)
         .test()
         .assertResult(1);
 
@@ -993,7 +993,7 @@ public class ObservableConcatTest {
             }
         });
 
-        Observable.concatArrayDelayError(source, source).firstElement()
+        Observable.concatArrayDelayError(source, source)
         .test()
         .assertResult(1);
 
@@ -1014,7 +1014,7 @@ public class ObservableConcatTest {
             }
         });
 
-        Observable.concat(Arrays.asList(source, source)).firstElement()
+        Observable.concat(Arrays.asList(source, source))
         .test()
         .assertResult(1);
 
@@ -1035,7 +1035,7 @@ public class ObservableConcatTest {
             }
         });
 
-        Observable.concatDelayError(Arrays.asList(source, source)).firstElement()
+        Observable.concatDelayError(Arrays.asList(source, source))
         .test()
         .assertResult(1);
 

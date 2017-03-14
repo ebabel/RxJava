@@ -456,7 +456,7 @@ public class ObservableSingleTest {
             }
         });
 
-        Integer r = reduced.blockingGet();
+        Integer r = reduced.test().values().get(0);
         assertEquals(21, r.intValue());
     }
 

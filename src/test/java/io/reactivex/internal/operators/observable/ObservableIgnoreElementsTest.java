@@ -29,12 +29,12 @@ public class ObservableIgnoreElementsTest {
 
     @Test
     public void testWithEmptyObservable() {
-        assertTrue(Observable.empty().ignoreElements().toObservable().isEmpty().blockingGet());
+        assertTrue(Observable.empty().ignoreElements().toObservable().isEmpty().test().values().get(0));
     }
 
     @Test
     public void testWithNonEmptyObservable() {
-        assertTrue(Observable.just(1, 2, 3).ignoreElements().toObservable().isEmpty().blockingGet());
+        assertTrue(Observable.just(1, 2, 3).ignoreElements().toObservable().isEmpty().test().values().get(0));
     }
 
     @Test
@@ -50,7 +50,7 @@ public class ObservableIgnoreElementsTest {
                 })
                 .ignoreElements()
                 .toObservable()
-                .count().blockingGet();
+                .count().test().values().get(0);
         assertEquals(num, upstreamCount.get());
         assertEquals(0, count);
     }
@@ -97,12 +97,12 @@ public class ObservableIgnoreElementsTest {
 
     @Test
     public void testWithEmpty() {
-        assertNull(Observable.empty().ignoreElements().blockingGet());
+        assertNull(Observable.empty().ignoreElements().test().values().get(0));
     }
 
     @Test
     public void testWithNonEmpty() {
-        assertNull(Observable.just(1, 2, 3).ignoreElements().blockingGet());
+        assertNull(Observable.just(1, 2, 3).ignoreElements().test().values().get(0));
     }
 
     @Test
@@ -117,7 +117,7 @@ public class ObservableIgnoreElementsTest {
                     }
                 })
                 .ignoreElements()
-                .blockingGet();
+                .test().values().get(0);
         assertEquals(num, upstreamCount.get());
         assertNull(count);
     }

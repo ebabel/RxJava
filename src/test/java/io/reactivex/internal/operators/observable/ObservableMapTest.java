@@ -184,7 +184,7 @@ public class ObservableMapTest {
                     public Integer apply(Integer arg0) {
                         throw new IllegalArgumentException("any error");
                     }
-                }).blockingSingle();
+                }).test().values().get(0);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -217,7 +217,7 @@ public class ObservableMapTest {
                 return i;
             }
 
-        }).blockingGet());
+        }).test().values().get(0));
     }
 
     /**
@@ -232,7 +232,7 @@ public class ObservableMapTest {
                 return i;
             }
 
-        }).blockingSingle();
+        }).test().values().get(0);
     }
 
     /**
@@ -248,7 +248,7 @@ public class ObservableMapTest {
                 return i / 0;
             }
 
-        }).blockingGet();
+        }).test().values().get(0);
     }
 
     // FIXME RS subscribers can't throw

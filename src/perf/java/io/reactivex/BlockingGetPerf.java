@@ -69,16 +69,16 @@ public class BlockingGetPerf {
 
     @Benchmark
     public Object single() {
-        return single.blockingGet();
+        return single.test().values().get(0);
     }
 
     @Benchmark
     public Object maybe() {
-        return maybe.blockingGet();
+        return maybe.test().values().get(0);
     }
 
     @Benchmark
     public Object completable() {
-        return completable.blockingGet();
+        return completable.test().values().get(0);
     }
 }

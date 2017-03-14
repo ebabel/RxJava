@@ -221,7 +221,7 @@ public class ObservableBlockingTest {
 
     @Test(expected = NoSuchElementException.class)
     public void blockingSingleEmpty() {
-        Observable.empty().blockingSingle();
+        Observable.empty().test().values().get(0);
     }
 
     @Test
@@ -301,7 +301,7 @@ public class ObservableBlockingTest {
 
         Thread.currentThread().interrupt();
         try {
-            o.blockingGet();
+            o.test().values().get(0);
             fail("Should have thrown");
         } catch (RuntimeException ex) {
             assertTrue(ex.toString(), ex.getCause() instanceof InterruptedException);
@@ -312,7 +312,7 @@ public class ObservableBlockingTest {
         o.onError(new TestException());
 
         try {
-            o.blockingGet();
+            o.test().values().get(0);
             fail("Should have thrown");
         } catch (TestException ex) {
             // expected

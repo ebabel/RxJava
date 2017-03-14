@@ -32,7 +32,7 @@ public class ObservableElementAtTest {
 
     @Test
     public void testElementAtObservable() {
-        assertEquals(2, Observable.fromArray(1, 2).elementAt(1).toObservable().blockingSingle()
+        assertEquals(2, Observable.fromArray(1, 2).elementAt(1).toObservable().test().values().get(0)
                 .intValue());
     }
 
@@ -43,17 +43,17 @@ public class ObservableElementAtTest {
 
     @Test
     public void testElementAtOrDefaultObservable() {
-        assertEquals(2, Observable.fromArray(1, 2).elementAt(1, 0).toObservable().blockingSingle().intValue());
+        assertEquals(2, Observable.fromArray(1, 2).elementAt(1, 0).toObservable().test().values().get(0).intValue());
     }
 
     @Test
     public void testElementAtOrDefaultWithIndexOutOfBoundsObservable() {
-        assertEquals(0, Observable.fromArray(1, 2).elementAt(2, 0).toObservable().blockingSingle().intValue());
+        assertEquals(0, Observable.fromArray(1, 2).elementAt(2, 0).toObservable().test().values().get(0).intValue());
     }
 
     @Test
     public void testElementAt() {
-        assertEquals(2, Observable.fromArray(1, 2).elementAt(1).blockingGet()
+        assertEquals(2, Observable.fromArray(1, 2).elementAt(1).test().values().get(0)
                 .intValue());
     }
 
@@ -64,17 +64,17 @@ public class ObservableElementAtTest {
 
     @Test
     public void testElementAtWithIndexOutOfBounds() {
-        assertNull(Observable.fromArray(1, 2).elementAt(2).blockingGet());
+        assertNull(Observable.fromArray(1, 2).elementAt(2).test().values().get(0));
     }
 
     @Test
     public void testElementAtOrDefault() {
-        assertEquals(2, Observable.fromArray(1, 2).elementAt(1, 0).blockingGet().intValue());
+        assertEquals(2, Observable.fromArray(1, 2).elementAt(1, 0).test().values().get(0).intValue());
     }
 
     @Test
     public void testElementAtOrDefaultWithIndexOutOfBounds() {
-        assertEquals(0, Observable.fromArray(1, 2).elementAt(2, 0).blockingGet().intValue());
+        assertEquals(0, Observable.fromArray(1, 2).elementAt(2, 0).test().values().get(0).intValue());
     }
 
     @Test(expected = IndexOutOfBoundsException.class)

@@ -152,7 +152,7 @@ public class ObservableTakeLastTest {
                         return false;
                     }
                 })
-                .blockingGet());
+                .test().values().get(0));
     }
 
     @Test

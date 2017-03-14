@@ -4569,54 +4569,6 @@ public abstract class Observable<T> implements ObservableSource<T> {
     }
 
     /**
-     * Returns the first item emitted by this {@code Observable}, or throws
-     * {@code NoSuchElementException} if it emits no items.
-     * <dl>
-     *  <dt><b>Scheduler:</b></dt>
-     *  <dd>{@code blockingFirst} does not operate by default on a particular {@link Scheduler}.</dd>
-     * </dl>
-     *
-     * @return the first item emitted by this {@code Observable}
-     * @throws NoSuchElementException
-     *             if this {@code Observable} emits no items
-     * @see <a href="http://reactivex.io/documentation/operators/first.html">ReactiveX documentation: First</a>
-     */
-    @CheckReturnValue
-    @SchedulerSupport(SchedulerSupport.NONE)
-    public final T blockingFirst() {
-        BlockingFirstObserver<T> s = new BlockingFirstObserver<T>();
-        subscribe(s);
-        T v = s.blockingGet();
-        if (v != null) {
-            return v;
-        }
-        throw new NoSuchElementException();
-    }
-
-    /**
-     * Returns the first item emitted by this {@code Observable}, or a default value if it emits no
-     * items.
-     * <dl>
-     *  <dt><b>Scheduler:</b></dt>
-     *  <dd>{@code blockingFirst} does not operate by default on a particular {@link Scheduler}.</dd>
-     * </dl>
-     *
-     * @param defaultItem
-     *            a default value to return if this {@code Observable} emits no items
-     * @return the first item emitted by this {@code Observable}, or the default value if it emits no
-     *         items
-     * @see <a href="http://reactivex.io/documentation/operators/first.html">ReactiveX documentation: First</a>
-     */
-    @CheckReturnValue
-    @SchedulerSupport(SchedulerSupport.NONE)
-    public final T blockingFirst(T defaultItem) {
-        BlockingFirstObserver<T> s = new BlockingFirstObserver<T>();
-        subscribe(s);
-        T v = s.blockingGet();
-        return v != null ? v : defaultItem;
-    }
-
-    /**
      * Invokes a method on each item emitted by this {@code Observable} and blocks until the Observable
      * completes.
      * <p>
@@ -4696,58 +4648,6 @@ public abstract class Observable<T> implements ObservableSource<T> {
     }
 
     /**
-     * Returns the last item emitted by this {@code Observable}, or throws
-     * {@code NoSuchElementException} if this {@code Observable} emits no items.
-     * <p>
-     * <img width="640" height="315" src="https://github.com/ReactiveX/RxJava/wiki/images/rx-operators/B.last.png" alt="">
-     * <dl>
-     *  <dt><b>Scheduler:</b></dt>
-     *  <dd>{@code blockingLast} does not operate by default on a particular {@link Scheduler}.</dd>
-     * </dl>
-     *
-     * @return the last item emitted by this {@code Observable}
-     * @throws NoSuchElementException
-     *             if this {@code Observable} emits no items
-     * @see <a href="http://reactivex.io/documentation/operators/last.html">ReactiveX documentation: Last</a>
-     */
-    @CheckReturnValue
-    @SchedulerSupport(SchedulerSupport.NONE)
-    public final T blockingLast() {
-        BlockingLastObserver<T> s = new BlockingLastObserver<T>();
-        subscribe(s);
-        T v = s.blockingGet();
-        if (v != null) {
-            return v;
-        }
-        throw new NoSuchElementException();
-    }
-
-    /**
-     * Returns the last item emitted by this {@code Observable}, or a default value if it emits no
-     * items.
-     * <p>
-     * <img width="640" height="310" src="https://github.com/ReactiveX/RxJava/wiki/images/rx-operators/B.lastOrDefault.png" alt="">
-     * <dl>
-     *  <dt><b>Scheduler:</b></dt>
-     *  <dd>{@code blockingLast} does not operate by default on a particular {@link Scheduler}.</dd>
-     * </dl>
-     *
-     * @param defaultItem
-     *            a default value to return if this {@code Observable} emits no items
-     * @return the last item emitted by the {@code Observable}, or the default value if it emits no
-     *         items
-     * @see <a href="http://reactivex.io/documentation/operators/last.html">ReactiveX documentation: Last</a>
-     */
-    @CheckReturnValue
-    @SchedulerSupport(SchedulerSupport.NONE)
-    public final T blockingLast(T defaultItem) {
-        BlockingLastObserver<T> s = new BlockingLastObserver<T>();
-        subscribe(s);
-        T v = s.blockingGet();
-        return v != null ? v : defaultItem;
-    }
-
-    /**
      * Returns an {@link Iterable} that returns the latest item emitted by this {@code Observable},
      * waiting if necessary for one to become available.
      * <p>
@@ -4811,29 +4711,6 @@ public abstract class Observable<T> implements ObservableSource<T> {
     @SchedulerSupport(SchedulerSupport.NONE)
     public final Iterable<T> blockingNext() {
         return new BlockingObservableNext<T>(this);
-    }
-
-    /**
-     * If this {@code Observable} completes after emitting a single item, return that item; if it emits
-     * more than one item, throw an {@code IllegalArgumentException}; if it emits no items, return a default
-     * value.
-     * <p>
-     * <img width="640" height="315" src="https://github.com/ReactiveX/RxJava/wiki/images/rx-operators/B.singleOrDefault.png" alt="">
-     * <dl>
-     *  <dt><b>Scheduler:</b></dt>
-     *  <dd>{@code blockingSingle} does not operate by default on a particular {@link Scheduler}.</dd>
-     * </dl>
-     *
-     * @param defaultItem
-     *            a default value to return if this {@code Observable} emits no items
-     * @return the single item emitted by this {@code Observable}, or the default value if it emits no
-     *         items
-     * @see <a href="http://reactivex.io/documentation/operators/first.html">ReactiveX documentation: First</a>
-     */
-    @CheckReturnValue
-    @SchedulerSupport(SchedulerSupport.NONE)
-    public final T blockingSingle(T defaultItem) {
-        return single(defaultItem).blockingGet();
     }
 
     /**

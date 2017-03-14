@@ -37,7 +37,6 @@ public class ObservableTest {
 
     Observer<Number> w;
     SingleObserver<Number> wo;
-    MaybeObserver<Number> wm;
 
     private static final Predicate<Integer> IS_EVEN = new Predicate<Integer>() {
         @Override
@@ -50,44 +49,6 @@ public class ObservableTest {
     public void before() {
         w = TestHelper.mockObserver();
         wo = TestHelper.mockSingleObserver();
-        wm = TestHelper.mockMaybeObserver();
-    }
-
-    @Test
-    public void fromArray() {
-        String[] items = new String[] { "one", "two", "three" };
-        assertEquals((Long)3L, Observable.fromArray(items).count().blockingGet());
-        assertEquals("two", Observable.fromArray(items).skip(1).take(1).blockingSingle());
-        assertEquals("three", Observable.fromArray(items).takeLast(1).blockingSingle());
-    }
-
-    @Test
-    public void fromIterable() {
-        ArrayList<String> items = new ArrayList<String>();
-        items.add("one");
-        items.add("two");
-        items.add("three");
-
-        assertEquals((Long)3L, Observable.fromIterable(items).count().blockingGet());
-        assertEquals("two", Observable.fromIterable(items).skip(1).take(1).blockingSingle());
-        assertEquals("three", Observable.fromIterable(items).takeLast(1).blockingSingle());
-    }
-
-    @Test
-    public void fromArityArgs3() {
-        Observable<String> items = Observable.just("one", "two", "three");
-
-        assertEquals((Long)3L, items.count().blockingGet());
-        assertEquals("two", items.skip(1).take(1).blockingSingle());
-        assertEquals("three", items.takeLast(1).blockingSingle());
-    }
-
-    @Test
-    public void fromArityArgs1() {
-        Observable<String> items = Observable.just("one");
-
-        assertEquals((Long)1L, items.count().blockingGet());
-        assertEquals("one", items.takeLast(1).blockingSingle());
     }
 
     @Test
@@ -220,91 +181,7 @@ public class ObservableTest {
         verify(w, never()).onError(any(Throwable.class));
     }
 
-    @Test
-    public void testFirstOfNone() {
-        Observable<Integer> o = Observable.empty();
-        o.firstElement().subscribe(wm);
-        verify(wm, never()).onSuccess(anyInt());
-        verify(wm).onComplete();
-        verify(wm, never()).onError(any(Throwable.class));
-    }
 
-    @Test
-    public void testFirstWithPredicateOfNoneMatchingThePredicate() {
-        Observable<Integer> o = Observable.just(1, 3, 5, 7, 9, 7, 5, 3, 1);
-        o.filter(IS_EVEN).firstElement().subscribe(wm);
-        verify(wm, never()).onSuccess(anyInt());
-        verify(wm).onComplete();
-        verify(wm, never()).onError(any(Throwable.class));
-    }
-
-    @Test
-    public void testReduce() {
-        Observable<Integer> o = Observable.just(1, 2, 3, 4);
-        o.reduce(new BiFunction<Integer, Integer, Integer>() {
-            @Override
-            public Integer apply(Integer t1, Integer t2) {
-                return t1 + t2;
-            }
-        })
-        .subscribe(wm);
-        // we should be called only once
-        verify(wm, times(1)).onSuccess(anyInt());
-        verify(wm).onSuccess(10);
-        verify(wm, never()).onError(any(Throwable.class));
-        verify(wm, never()).onComplete();
-    }
-
-    @Test
-    public void testReduceObservable() {
-        Observable<Integer> o = Observable.just(1, 2, 3, 4);
-        o.reduce(new BiFunction<Integer, Integer, Integer>() {
-            @Override
-            public Integer apply(Integer t1, Integer t2) {
-                return t1 + t2;
-            }
-        })
-        .toObservable()
-        .subscribe(w);
-        // we should be called only once
-        verify(w, times(1)).onNext(anyInt());
-        verify(w).onNext(10);
-        verify(w, never()).onError(any(Throwable.class));
-        verify(w).onComplete();
-    }
-
-    @Test
-    public void testReduceWithEmptyObservable() {
-        Observable<Integer> o = Observable.range(1, 0);
-        o.reduce(new BiFunction<Integer, Integer, Integer>() {
-            @Override
-            public Integer apply(Integer t1, Integer t2) {
-                return t1 + t2;
-            }
-        })
-        .toObservable()
-        .test()
-        .assertResult();
-    }
-
-    /**
-     * A reduce on an empty Observable and a seed should just pass the seed through.
-     *
-     * This is confirmed at https://github.com/ReactiveX/RxJava/issues/423#issuecomment-27642456
-     */
-    @Test
-    public void testReduceWithEmptyObservableAndSeed() {
-        Observable<Integer> o = Observable.range(1, 0);
-        int value = o.reduce(1, new BiFunction<Integer, Integer, Integer>() {
-            @Override
-            public Integer apply(Integer t1, Integer t2) {
-                return t1 + t2;
-            }
-        })
-        .blockingGet();
-
-        assertEquals(1, value);
-    }
 
     @Test
     public void testReduceWithInitialValue() {
@@ -942,31 +819,6 @@ public class ObservableTest {
     }
 
     @Test
-    public void testIgnoreElements() {
-        Completable o = Observable.just(1, 2, 3).ignoreElements();
-
-        CompletableObserver observer = TestHelper.mockCompletableObserver();
-
-        o.subscribe(observer);
-
-        verify(observer, never()).onError(any(Throwable.class));
-        verify(observer, times(1)).onComplete();
-    }
-
-    @Test
-    public void testIgnoreElementsObservable() {
-        Observable<Integer> o = Observable.just(1, 2, 3).ignoreElements().toObservable();
-
-        Observer<Object> observer = TestHelper.mockObserver();
-
-        o.subscribe(observer);
-
-        verify(observer, never()).onNext(any(Integer.class));
-        verify(observer, never()).onError(any(Throwable.class));
-        verify(observer, times(1)).onComplete();
-    }
-
-    @Test
     public void testJustWithScheduler() {
         TestScheduler scheduler = new TestScheduler();
         Observable<Integer> o = Observable.fromArray(1, 2).subscribeOn(scheduler);
@@ -1174,18 +1026,6 @@ public class ObservableTest {
                     return subscriber.values().get(0);
                 }
         });
-    }
-
-    @Test
-    public void testFlatMap() {
-        List<Integer> list = Observable.range(1, 5).flatMap(new Function<Integer, Observable<Integer>>() {
-            @Override
-            public Observable<Integer> apply(Integer v) {
-                return Observable.range(v, 2);
-            }
-        }).toList().blockingGet();
-
-        Assert.assertEquals(Arrays.asList(1, 2, 2, 3, 3, 4, 4, 5, 5, 6), list);
     }
 
     @Test

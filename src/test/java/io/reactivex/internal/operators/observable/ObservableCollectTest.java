@@ -170,7 +170,7 @@ public final class ObservableCollectTest {
             }
         });
 
-        List<Integer> list =  o.blockingGet();
+        List<Integer> list =  o.test().values().get(0);
 
         assertEquals(3, list.size());
         assertEquals(1, list.get(0).intValue());
@@ -178,7 +178,7 @@ public final class ObservableCollectTest {
         assertEquals(3, list.get(2).intValue());
 
         // test multiple subscribe
-        List<Integer> list2 =  o.blockingGet();
+        List<Integer> list2 =  o.test().values().get(0);
 
         assertEquals(3, list2.size());
         assertEquals(1, list2.get(0).intValue());
@@ -202,7 +202,7 @@ public final class ObservableCollectTest {
                 }
                 sb.append(v);
       }
-            }).blockingGet().toString();
+            }).test().values().get(0).toString();
 
         assertEquals("1-2-3", value);
     }

@@ -291,49 +291,6 @@ public class PublishSubjectTest {
 
     private final Throwable testException = new Throwable();
 
-    @Test(timeout = 1000)
-    public void testUnsubscriptionCase() {
-        PublishSubject<String> src = PublishSubject.create();
-
-        for (int i = 0; i < 10; i++) {
-            final Observer<Object> o = TestHelper.mockObserver();
-            InOrder inOrder = inOrder(o);
-            String v = "" + i;
-            System.out.printf("Turn: %d%n", i);
-            src.firstElement()
-                .toObservable()
-                .flatMap(new Function<String, Observable<String>>() {
-
-                    @Override
-                    public Observable<String> apply(String t1) {
-                        return Observable.just(t1 + ", " + t1);
-                    }
-                })
-                .subscribe(new DefaultObserver<String>() {
-                    @Override
-                    public void onNext(String t) {
-                        o.onNext(t);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        o.onError(e);
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        o.onComplete();
-                    }
-                });
-            src.onNext(v);
-
-            inOrder.verify(o).onNext(v + ", " + v);
-            inOrder.verify(o).onComplete();
-            verify(o, never()).onError(any(Throwable.class));
-        }
-    }
-
-
     // FIXME RS subscribers are not allowed to throw
 //    @Test
 //    public void testOnErrorThrowsDoesntPreventDelivery() {

@@ -162,7 +162,7 @@ public class ObservableToListTest {
     @Test
     public void testListWithBlockingFirst() {
         Observable<String> o = Observable.fromIterable(Arrays.asList("one", "two", "three"));
-        List<String> actual = o.toList().blockingGet();
+        List<String> actual = o.toList().test().values().get(0);
         Assert.assertEquals(Arrays.asList("one", "two", "three"), actual);
     }
 

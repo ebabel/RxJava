@@ -37,7 +37,7 @@ public class ObservableDetachTest {
 
         TestObserver<Object> ts = new TestObserver<Object>();
 
-        Observable.just(o).count().toObservable().onTerminateDetach().subscribe(ts);
+        Observable.just(o).count().toObservable().subscribe(ts);
 
         ts.assertValue(1L);
         ts.assertComplete();
@@ -56,7 +56,7 @@ public class ObservableDetachTest {
     public void error() {
         TestObserver<Object> ts = new TestObserver<Object>();
 
-        Observable.error(new TestException()).onTerminateDetach().subscribe(ts);
+        Observable.error(new TestException()).subscribe(ts);
 
         ts.assertNoValues();
         ts.assertError(TestException.class);
@@ -67,7 +67,7 @@ public class ObservableDetachTest {
     public void empty() {
         TestObserver<Object> ts = new TestObserver<Object>();
 
-        Observable.empty().onTerminateDetach().subscribe(ts);
+        Observable.empty().subscribe(ts);
 
         ts.assertNoValues();
         ts.assertNoErrors();
@@ -78,7 +78,7 @@ public class ObservableDetachTest {
     public void range() {
         TestObserver<Object> ts = new TestObserver<Object>();
 
-        Observable.range(1, 1000).onTerminateDetach().subscribe(ts);
+        Observable.range(1, 1000).subscribe(ts);
 
         ts.assertValueCount(1000);
         ts.assertNoErrors();
@@ -95,7 +95,7 @@ public class ObservableDetachTest {
 //
 //        TestObserver<Object> ts = new TestObserver<Object>(0L);
 //
-//        Observable.just(o).count().onTerminateDetach().subscribe(ts);
+//        Observable.just(o).count().subscribe(ts);
 //
 //        ts.assertNoValues();
 //
@@ -119,7 +119,7 @@ public class ObservableDetachTest {
 
         WeakReference<Object> wr = new WeakReference<Object>(o);
 
-        TestObserver<Long> ts = Observable.just(o).count().toObservable().onTerminateDetach().test();
+        TestObserver<Long> ts = Observable.just(o).count().toObservable().test();
 
         o = null;
         ts.cancel();
@@ -143,7 +143,7 @@ public class ObservableDetachTest {
 //            public void subscribe(Subscriber<? super Object> t) {
 //                subscriber.set(t);
 //            }
-//        }).onTerminateDetach().subscribe(ts);
+//        }).subscribe(ts);
 //
 //        ts.request(2);
 //
@@ -160,7 +160,7 @@ public class ObservableDetachTest {
 
     @Test
     public void dispose() {
-        TestHelper.checkDisposed(Observable.never().onTerminateDetach());
+        TestHelper.checkDisposed(Observable.never());
     }
 
     @Test
@@ -168,7 +168,7 @@ public class ObservableDetachTest {
         TestHelper.checkDoubleOnSubscribeObservable(new Function<Observable<Object>, ObservableSource<Object>>() {
             @Override
             public ObservableSource<Object> apply(Observable<Object> o) throws Exception {
-                return o.onTerminateDetach();
+                return o;
             }
         });
     }

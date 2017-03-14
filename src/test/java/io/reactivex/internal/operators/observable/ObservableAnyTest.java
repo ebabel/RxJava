@@ -450,7 +450,7 @@ public class ObservableAnyTest {
             }
         });
 
-        assertTrue(anyEven.blockingGet());
+        assertTrue(anyEven.test().values().get(0));
     }
     @Test(timeout = 5000)
     public void testIssue1935NoUnsubscribeDownstream() {

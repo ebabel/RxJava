@@ -145,12 +145,6 @@ public class ObservableToSortedListTest {
         verify(observer, Mockito.never()).onError(any(Throwable.class));
     }
 
-    @Test
-    public void testWithFollowingFirst() {
-        Observable<Integer> o = Observable.just(1, 3, 2, 5, 4);
-        assertEquals(Arrays.asList(1, 2, 3, 4, 5), o.toSortedList().blockingGet());
-    }
-
     @SuppressWarnings("unchecked")
     @Test
     public void toSortedListCapacity() {

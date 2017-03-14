@@ -221,7 +221,7 @@ public class ObservableReduceTest {
         Observable<Integer> source = Observable.just(1, 2, 3, 4, 5, 6);
         Maybe<Integer> reduced = source.reduce(sum);
 
-        Integer r = reduced.blockingGet();
+        Integer r = reduced.test().values().get(0);
         assertEquals(21, r.intValue());
     }
 
@@ -230,7 +230,7 @@ public class ObservableReduceTest {
         Observable<Integer> source = Observable.just(1, 2, 3, 4, 5, 6);
         Single<Integer> reduced = source.reduce(0, sum);
 
-        Integer r = reduced.blockingGet();
+        Integer r = reduced.test().values().get(0);
         assertEquals(21, r.intValue());
     }
 

@@ -133,33 +133,21 @@ public class BaseTypeAnnotations {
                 continue;
             }
             if (m.getDeclaringClass() == clazz) {
-                if (clazz == Flowable.class) {
+                boolean found = false;
+                for (Class<?> paramclazz : m.getParameterTypes()) {
+                    if (Publisher.class.isAssignableFrom(paramclazz)) {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found) {
                     if (!m.isAnnotationPresent(BackpressureSupport.class)) {
-                        b.append("No @BackpressureSupport annotation (being Flowable): ").append(m).append("\r\n");
+                        b.append("No @BackpressureSupport annotation (has Publisher param): ").append(m).append("\r\n");
                     }
                 } else {
-                    if (m.getReturnType() == Flowable.class) {
-                        if (!m.isAnnotationPresent(BackpressureSupport.class)) {
-                            b.append("No @BackpressureSupport annotation (having Flowable return): ").append(m).append("\r\n");
-                        }
-                    } else {
-                        boolean found = false;
-                        for (Class<?> paramclazz : m.getParameterTypes()) {
-                            if (Publisher.class.isAssignableFrom(paramclazz)) {
-                                found = true;
-                                break;
-                            }
-                        }
-
-                        if (found) {
-                            if (!m.isAnnotationPresent(BackpressureSupport.class)) {
-                                b.append("No @BackpressureSupport annotation (has Publisher param): ").append(m).append("\r\n");
-                            }
-                        } else {
-                            if (m.isAnnotationPresent(BackpressureSupport.class)) {
-                                b.append("Unnecessary @BackpressureSupport annotation: ").append(m).append("\r\n");
-                            }
-                        }
+                    if (m.isAnnotationPresent(BackpressureSupport.class)) {
+                        b.append("Unnecessary @BackpressureSupport annotation: ").append(m).append("\r\n");
                     }
                 }
             }
@@ -173,12 +161,6 @@ public class BaseTypeAnnotations {
             fail(b.toString());
         }
     }
-
-    @Test
-    public void checkReturnValueFlowable() {
-        checkCheckReturnValueSupport(Flowable.class);
-    }
-
     @Test
     public void checkReturnValueObservable() {
         checkCheckReturnValueSupport(Observable.class);
@@ -187,21 +169,6 @@ public class BaseTypeAnnotations {
     @Test
     public void checkReturnValueSingle() {
         checkCheckReturnValueSupport(Single.class);
-    }
-
-    @Test
-    public void checkReturnValueCompletable() {
-        checkCheckReturnValueSupport(Completable.class);
-    }
-
-    @Test
-    public void checkReturnValueMaybe() {
-        checkCheckReturnValueSupport(Maybe.class);
-    }
-
-    @Test
-    public void schedulerSupportFlowable() {
-        checkSchedulerSupport(Flowable.class);
     }
 
     @Test
@@ -215,21 +182,6 @@ public class BaseTypeAnnotations {
     }
 
     @Test
-    public void schedulerSupportCompletable() {
-        checkSchedulerSupport(Completable.class);
-    }
-
-    @Test
-    public void schedulerSupportMaybe() {
-        checkSchedulerSupport(Maybe.class);
-    }
-
-    @Test
-    public void backpressureSupportFlowable() {
-        checkBackpressureSupport(Flowable.class);
-    }
-
-    @Test
     public void backpressureSupportObservable() {
         checkBackpressureSupport(Observable.class);
     }
@@ -239,13 +191,4 @@ public class BaseTypeAnnotations {
         checkBackpressureSupport(Single.class);
     }
 
-    @Test
-    public void backpressureSupportCompletable() {
-        checkBackpressureSupport(Completable.class);
-    }
-
-    @Test
-    public void backpressureSupportMaybe() {
-        checkBackpressureSupport(Maybe.class);
-    }
 }

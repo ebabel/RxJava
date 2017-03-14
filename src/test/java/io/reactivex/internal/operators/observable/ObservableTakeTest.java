@@ -69,7 +69,7 @@ public class ObservableTakeTest {
             public Integer apply(Integer t1) {
                 throw new IllegalArgumentException("some error");
             }
-        }).blockingSingle();
+        }).test().values().get(0);
     }
 
     @Test

@@ -254,7 +254,7 @@ public class ObservableAllTest {
             }
         });
 
-        assertFalse(allOdd.blockingGet());
+        assertFalse(allOdd.test().values().get(0));
     }
     @Test(timeout = 5000)
     public void testIssue1935NoUnsubscribeDownstream() {

@@ -26,8 +26,6 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.internal.functions.Functions;
 import io.reactivex.internal.fuseable.QueueSubscription;
 import io.reactivex.observers.*;
-import io.reactivex.processors.UnicastProcessor;
-import io.reactivex.subscribers.*;
 
 public class ObservableDoAfterNextTest {
 
@@ -116,24 +114,6 @@ public class ObservableDoAfterNextTest {
         assertEquals(Arrays.asList(-1, -2, -3, -4, -5), values);
     }
 
-    @Test
-    public void asyncFused() {
-        TestSubscriber<Integer> ts0 = SubscriberFusion.newTest(QueueSubscription.ASYNC);
-
-        UnicastProcessor<Integer> up = UnicastProcessor.create();
-
-        TestHelper.emit(up, 1, 2, 3, 4, 5);
-
-        up
-        .doAfterNext(afterNext)
-        .subscribe(ts0);
-
-        SubscriberFusion.assertFusion(ts0, QueueSubscription.ASYNC)
-        .assertResult(1, 2, 3, 4, 5);
-
-        assertEquals(Arrays.asList(-1, -2, -3, -4, -5), values);
-    }
-
     @Test(expected = NullPointerException.class)
     public void consumerNull() {
         Observable.just(1).doAfterNext(null);
@@ -208,25 +188,6 @@ public class ObservableDoAfterNextTest {
         .subscribe(ts0);
 
         ObserverFusion.assertFusion(ts0, QueueSubscription.NONE)
-        .assertResult(1, 2, 3, 4, 5);
-
-        assertEquals(Arrays.asList(-1, -2, -3, -4, -5), values);
-    }
-
-    @Test
-    public void asyncFusedConditional() {
-        TestSubscriber<Integer> ts0 = SubscriberFusion.newTest(QueueSubscription.ASYNC);
-
-        UnicastProcessor<Integer> up = UnicastProcessor.create();
-
-        TestHelper.emit(up, 1, 2, 3, 4, 5);
-
-        up
-        .doAfterNext(afterNext)
-        .filter(Functions.alwaysTrue())
-        .subscribe(ts0);
-
-        SubscriberFusion.assertFusion(ts0, QueueSubscription.ASYNC)
         .assertResult(1, 2, 3, 4, 5);
 
         assertEquals(Arrays.asList(-1, -2, -3, -4, -5), values);

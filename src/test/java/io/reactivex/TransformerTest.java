@@ -22,21 +22,6 @@ import static org.junit.Assert.*;
 public class TransformerTest {
 
     @Test
-    public void flowableTransformerThrows() {
-        try {
-            Flowable.just(1).compose(new FlowableTransformer<Integer, Integer>() {
-                @Override
-                public Publisher<Integer> apply(Flowable<Integer> v) {
-                    throw new TestException("Forced failure");
-                }
-            });
-            fail("Should have thrown!");
-        } catch (TestException ex) {
-            assertEquals("Forced failure", ex.getMessage());
-        }
-    }
-
-    @Test
     public void observableTransformerThrows() {
         try {
             Observable.just(1).compose(new ObservableTransformer<Integer, Integer>() {
@@ -65,37 +50,6 @@ public class TransformerTest {
             assertEquals("Forced failure", ex.getMessage());
         }
     }
-
-    @Test
-    public void maybeTransformerThrows() {
-        try {
-            Maybe.just(1).compose(new MaybeTransformer<Integer, Integer>() {
-                @Override
-                public Maybe<Integer> apply(Maybe<Integer> v) {
-                    throw new TestException("Forced failure");
-                }
-            });
-            fail("Should have thrown!");
-        } catch (TestException ex) {
-            assertEquals("Forced failure", ex.getMessage());
-        }
-    }
-
-    @Test
-    public void completableTransformerThrows() {
-        try {
-            Completable.complete().compose(new CompletableTransformer() {
-                @Override
-                public Completable apply(Completable v) {
-                    throw new TestException("Forced failure");
-                }
-            });
-            fail("Should have thrown!");
-        } catch (TestException ex) {
-            assertEquals("Forced failure", ex.getMessage());
-        }
-    }
-
     // Test demos for signature generics in compose() methods. Just needs to compile.
 
     @Test
@@ -112,19 +66,6 @@ public class TransformerTest {
         Single.just(a).compose(TransformerTest.<String>testSingleTransformerCreator());
     }
 
-    @Test
-    public void maybeGenericsSignatureTest() {
-        A<String, Integer> a = new A<String, Integer>() { };
-
-        Maybe.just(a).compose(TransformerTest.<String>testMaybeTransformerCreator());
-    }
-
-    @Test
-    public void flowableGenericsSignatureTest() {
-        A<String, Integer> a = new A<String, Integer>() { };
-
-        Flowable.just(a).compose(TransformerTest.<String>testFlowableTransformerCreator());
-    }
 
     interface A<T, R> { }
     interface B<T> { }
@@ -143,24 +84,6 @@ public class TransformerTest {
             @Override
             public SingleSource<B<T>> apply(Single<A<T, ?>> a) {
                 return Single.never();
-            }
-        };
-    }
-
-    private static <T> MaybeTransformer<A<T, ?>, B<T>> testMaybeTransformerCreator() {
-        return new MaybeTransformer<A<T, ?>, B<T>>() {
-            @Override
-            public MaybeSource<B<T>> apply(Maybe<A<T, ?>> a) {
-                return Maybe.empty();
-            }
-        };
-    }
-
-    private static <T> FlowableTransformer<A<T, ?>, B<T>> testFlowableTransformerCreator() {
-        return new FlowableTransformer<A<T, ?>, B<T>>() {
-            @Override
-            public Publisher<B<T>> apply(Flowable<A<T, ?>> a) {
-                return Flowable.empty();
             }
         };
     }

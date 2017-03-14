@@ -80,7 +80,7 @@ public class RxVsStreamPerf {
             }
         });
 
-        values = range.toList().blockingGet();
+        values = range.toList().test().values().get(0);
     }
 
     @Benchmark
