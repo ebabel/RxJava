@@ -1142,26 +1142,6 @@ public abstract class Single<T> implements SingleSource<T> {
     }
 
     /**
-     * Delays the actual subscription to the current Single until the given other CompletableSource
-     * completes.
-     * <p>If the delaying source signals an error, that error is re-emitted and no subscription
-     * to the current Single happens.
-     * <dl>
-     * <dt><b>Scheduler:</b></dt>
-     * <dd>{@code delaySubscription} does not operate by default on a particular {@link Scheduler}.</dd>
-     * </dl>
-     * @param other the CompletableSource that has to complete before the subscription to the
-     *              current Single happens
-     * @return the new Single instance
-     * @since 2.0
-     */
-    @CheckReturnValue
-    @SchedulerSupport(SchedulerSupport.NONE)
-    public final Single<T> delaySubscription(CompletableSource other) {
-        return RxJavaPlugins.onAssembly(new SingleDelayWithCompletable<T>(this, other));
-    }
-
-    /**
      * Delays the actual subscription to the current Single until the given other SingleSource
      * signals success.
      * <p>If the delaying source signals an error, that error is re-emitted and no subscription
@@ -1201,32 +1181,6 @@ public abstract class Single<T> implements SingleSource<T> {
     @SchedulerSupport(SchedulerSupport.NONE)
     public final <U> Single<T> delaySubscription(ObservableSource<U> other) {
         return RxJavaPlugins.onAssembly(new SingleDelayWithObservable<T, U>(this, other));
-    }
-
-    /**
-     * Delays the actual subscription to the current Single until the given other Publisher
-     * signals its first value or completes.
-     * <p>If the delaying source signals an error, that error is re-emitted and no subscription
-     * to the current Single happens.
-     * <p>The other source is consumed in an unbounded manner (requesting Long.MAX_VALUE from it).
-     * <dl>
-     * <dt><b>Backpressure:</b></dt>
-     * <dd>The {@code other} publisher is consumed in an unbounded fashion but will be
-     * cancelled after the first item it produced.</dd>
-     * <dt><b>Scheduler:</b></dt>
-     * <dd>{@code delaySubscription} does not operate by default on a particular {@link Scheduler}.</dd>
-     * </dl>
-     * @param <U> the element type of the other source
-     * @param other the Publisher that has to signal a value or complete before the
-     *              subscription to the current Single happens
-     * @return the new Single instance
-     * @since 2.0
-     */
-    @BackpressureSupport(BackpressureKind.FULL)
-    @CheckReturnValue
-    @SchedulerSupport(SchedulerSupport.NONE)
-    public final <U> Single<T> delaySubscription(Publisher<U> other) {
-        return RxJavaPlugins.onAssembly(new SingleDelayWithPublisher<T, U>(this, other));
     }
 
     /**
@@ -1494,47 +1448,6 @@ public abstract class Single<T> implements SingleSource<T> {
     @SchedulerSupport(SchedulerSupport.NONE)
     public final <R> Observable<R> flatMapObservable(Function<? super T, ? extends ObservableSource<? extends R>> mapper) {
         return toObservable().flatMap(mapper);
-    }
-
-    /**
-     * Returns a {@link Completable} that completes based on applying a specified function to the item emitted by the
-     * source {@link Single}, where that function returns a {@link Completable}.
-     * <p>
-     * <img width="640" height="267" src="https://raw.github.com/wiki/ReactiveX/RxJava/images/rx-operators/Single.flatMapCompletable.png" alt="">
-     * <dl>
-     * <dt><b>Scheduler:</b></dt>
-     * <dd>{@code flatMapCompletable} does not operate by default on a particular {@link Scheduler}.</dd>
-     * </dl>
-     *
-     * @param mapper
-     *            a function that, when applied to the item emitted by the source Single, returns a
-     *            Completable
-     * @return the Completable returned from {@code func} when applied to the item emitted by the source Single
-     * @see <a href="http://reactivex.io/documentation/operators/flatmap.html">ReactiveX operators documentation: FlatMap</a>
-     * @since 2.0
-     */
-    @CheckReturnValue
-    @SchedulerSupport(SchedulerSupport.NONE)
-    public final Completable flatMapCompletable(final Function<? super T, ? extends CompletableSource> mapper) {
-        ObjectHelper.requireNonNull(mapper, "mapper is null");
-        return RxJavaPlugins.onAssembly(new SingleFlatMapCompletable<T>(this, mapper));
-    }
-
-    /**
-     * Waits in a blocking fashion until the current Single signals a success value (which is returned) or
-     * an exception (which is propagated).
-     * <dl>
-     * <dt><b>Scheduler:</b></dt>
-     * <dd>{@code blockingGet} does not operate by default on a particular {@link Scheduler}.</dd>
-     * </dl>
-     * @return the success value
-     */
-    @CheckReturnValue
-    @SchedulerSupport(SchedulerSupport.NONE)
-    public final T blockingGet() {
-        BlockingMultiObserver<T> observer = new BlockingMultiObserver<T>();
-        subscribe(observer);
-        return observer.blockingGet();
     }
 
     /**
@@ -1955,36 +1868,6 @@ public abstract class Single<T> implements SingleSource<T> {
     }
 
 
-    /**
-     * Returns a Single that emits the item emitted by the source Single until a Publisher emits an item. Upon
-     * emission of an item from {@code other}, this will emit a {@link CancellationException} rather than go to
-     * {@link SingleObserver#onSuccess(Object)}.
-     * <p>
-     * <img width="640" height="380" src="https://raw.github.com/wiki/ReactiveX/RxJava/images/rx-operators/takeUntil.png" alt="">
-     * <dl>
-     *  <dt><b>Backpressure:</b></dt>
-     *  <dd>The {@code other} publisher is consumed in an unbounded fashion but will be
-     *  cancelled after the first item it produced.</dd>
-     *  <dt><b>Scheduler:</b></dt>
-     *  <dd>{@code takeUntil} does not operate by default on a particular {@link Scheduler}.</dd>
-     * </dl>
-     *
-     * @param other
-     *            the Publisher whose first emitted item will cause {@code takeUntil} to emit the item from the source
-     *            Single
-     * @param <E>
-     *            the type of items emitted by {@code other}
-     * @return a Single that emits the item emitted by the source Single until such time as {@code other} emits
-     * its first item
-     * @see <a href="http://reactivex.io/documentation/operators/takeuntil.html">ReactiveX operators documentation: TakeUntil</a>
-     */
-    @BackpressureSupport(BackpressureKind.FULL)
-    @CheckReturnValue
-    @SchedulerSupport(SchedulerSupport.NONE)
-    public final <E> Single<T> takeUntil(final Publisher<E> other) {
-        return RxJavaPlugins.onAssembly(new SingleTakeUntil<T, E>(this, other));
-    }
-
 
     /**
      * Signals a TimeoutException if the current Single doesn't signal a success value within the
@@ -2095,31 +1978,6 @@ public abstract class Single<T> implements SingleSource<T> {
             throw ExceptionHelper.wrapOrThrow(ex);
         }
     }
-
-    /**
-     * Returns a {@link Completable} that discards result of the {@link Single}
-     * and calls {@code onComplete} when this source {@link Single} calls
-     * {@code onSuccess}. Error terminal event is propagated.
-     * <p>
-     * <img width="640" height="295" src=
-     * "https://raw.github.com/wiki/ReactiveX/RxJava/images/rx-operators/Completable.toCompletable.png"
-     * alt="">
-     * <dl>
-     * <dt><b>Scheduler:</b></dt>
-     * <dd>{@code toCompletable} does not operate by default on a particular {@link Scheduler}.</dd>
-     * </dl>
-     *
-     * @return a {@link Completable} that calls {@code onComplete} on it's subscriber when the source {@link Single}
-     *         calls {@code onSuccess}.
-     * @see <a href="http://reactivex.io/documentation/completable.html">ReactiveX documentation: Completable</a>
-     * @since 2.0
-     */
-    @CheckReturnValue
-    @SchedulerSupport(SchedulerSupport.NONE)
-    public final Completable toCompletable() {
-        return RxJavaPlugins.onAssembly(new CompletableFromSingle<T>(this));
-    }
-
 
     /**
      * Returns a {@link Future} representing the single value emitted by this {@code Single}.

@@ -13,6 +13,7 @@
 
 package io.reactivex.internal.operators.single;
 
+import io.reactivex.internal.disposables.EmptyDisposable;
 import io.reactivex.internal.functions.ObjectHelper;
 import java.util.concurrent.Callable;
 

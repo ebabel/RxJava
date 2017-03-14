@@ -8476,23 +8476,6 @@ public abstract class Observable<T> implements ObservableSource<T> {
     }
 
     /**
-     * Nulls out references to the upstream producer and downstream Observer if
-     * the sequence is terminated or downstream calls dispose().
-     * <dl>
-     *  <dt><b>Scheduler:</b></dt>
-     *  <dd>{@code onTerminateDetach} does not operate by default on a particular {@link Scheduler}.</dd>
-     * </dl>
-     * @return an Observable which out references to the upstream producer and downstream Observer if
-     * the sequence is terminated or downstream calls dispose()
-     * @since 2.0
-     */
-    @CheckReturnValue
-    @SchedulerSupport(SchedulerSupport.NONE)
-    public final Observable<T> onTerminateDetach() {
-        return RxJavaPlugins.onAssembly(new ObservableDetach<T>(this));
-    }
-
-    /**
      * Returns a {@link ConnectableObservable}, which is a variety of ObservableSource that waits until its
      * {@link ConnectableObservable#connect connect} method is called before it begins emitting items to those
      * {@link Observer}s that have subscribed to it.
