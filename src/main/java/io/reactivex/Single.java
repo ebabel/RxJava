@@ -217,6 +217,17 @@ public abstract class Single<T> implements SingleSource<T> {
         return RxJavaPlugins.onAssembly(new SingleError<T>(errorSupplier));
     }
 
+    public static <T> Observable<T> concat(
+            SingleSource<? extends T> source1, SingleSource<? extends T> source2 ) {
+        ObjectHelper.requireNonNull(source1, "source1 is null");
+        ObjectHelper.requireNonNull(source2, "source2 is null");
+        return concat(Observable.fromArray(source1, source2));
+    }
+
+    public final Observable<T> concatWith(SingleSource<? extends T> other) {
+        return concat(this, other);
+    }
+
     /**
      * Returns a Single that invokes a subscriber's {@link SingleObserver#onError onError} method when the
      * subscriber subscribes to it.

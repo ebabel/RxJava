@@ -33,7 +33,7 @@ import io.reactivex.internal.util.*;
  */
 public class TestObserver<T>
 extends BaseTestConsumer<T, TestObserver<T>>
-implements Observer<T>, Disposable, SingleObserver<T> {
+implements Observer<T>, Disposable, SingleObserver<T>, CompletableObserver {
     /** The actual observer to forward events to. */
     private final Observer<? super T> actual;
 
