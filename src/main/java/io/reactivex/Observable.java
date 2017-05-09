@@ -7848,6 +7848,24 @@ public abstract class Observable<T> implements ObservableSource<T> {
     }
 
     /**
+     * Ignores all items emitted by the source ObservableSource and only calls {@code onComplete} or {@code onError}.
+     * <p>
+     * <img width="640" height="305" src="https://raw.github.com/wiki/ReactiveX/RxJava/images/rx-operators/ignoreElements.2.png" alt="">
+     * <dl>
+     *  <dt><b>Scheduler:</b></dt>
+     *  <dd>{@code ignoreElements} does not operate by default on a particular {@link Scheduler}.</dd>
+     * </dl>
+     *
+     * @return the new Completable instance
+     * @see <a href="http://reactivex.io/documentation/operators/ignoreelements.html">ReactiveX operators documentation: IgnoreElements</a>
+     */
+    @CheckReturnValue
+    @SchedulerSupport(SchedulerSupport.NONE)
+    public final Completable ignoreElements() {
+        return RxJavaPlugins.onAssembly(new ObservableIgnoreElementsCompletable<T>(this));
+    }
+
+    /**
      * Returns an Observable that emits {@code true} if the source ObservableSource is empty, otherwise {@code false}.
      * <p>
      * In Rx.Net this is negated as the {@code any} Observer but we renamed this in RxJava to better match Java
