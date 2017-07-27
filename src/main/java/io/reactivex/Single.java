@@ -16,6 +16,7 @@ package io.reactivex;
 import java.util.NoSuchElementException;
 import java.util.concurrent.*;
 
+import io.reactivex.internal.operators.completable.CompletableFromSingle;
 import org.reactivestreams.Publisher;
 
 import io.reactivex.annotations.*;
@@ -533,6 +534,30 @@ public abstract class Single<T> implements SingleSource<T> {
             return RxJavaPlugins.onAssembly((Single<T>)source);
         }
         return RxJavaPlugins.onAssembly(new SingleFromUnsafeSource<T>(source));
+    }
+
+    /**
+     * Returns a {@link Completable} that discards result of the {@link Single}
+     * and calls {@code onComplete} when this source {@link Single} calls
+     * {@code onSuccess}. Error terminal event is propagated.
+     * <p>
+     * <img width="640" height="295" src=
+     * "https://raw.github.com/wiki/ReactiveX/RxJava/images/rx-operators/Completable.toCompletable.png"
+     * alt="">
+     * <dl>
+     * <dt><b>Scheduler:</b></dt>
+     * <dd>{@code toCompletable} does not operate by default on a particular {@link Scheduler}.</dd>
+     * </dl>
+     *
+     * @return a {@link Completable} that calls {@code onComplete} on it's subscriber when the source {@link Single}
+     *         calls {@code onSuccess}.
+     * @see <a href="http://reactivex.io/documentation/completable.html">ReactiveX documentation: Completable</a>
+     * @since 2.0
+     */
+    @CheckReturnValue
+    @SchedulerSupport(SchedulerSupport.NONE)
+    public final Completable toCompletable() {
+        return RxJavaPlugins.onAssembly(new CompletableFromSingle<T>(this));
     }
 
     /**
